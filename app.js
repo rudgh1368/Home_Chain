@@ -18,7 +18,7 @@ const express = require('express')
     , flash = require('connect-flash')
 
     // 모듈로 분리한 설정 파일 불러오기
-    , config = require('./config')
+    , config = require('./config/config')
 
     // 모듈로 분리한 데이터베이스 파일 불러오기
     , database = require('./database/database')
@@ -70,6 +70,15 @@ app.use(flash());
 //라우팅 정보를 읽어 들여 라우팅 설정
 var router = express.Router();
 route_loader.init(app, router);
+
+// 패스포트 설정
+var configPassport = require('./config/passport');
+configPassport(app, passport);
+
+// 패스포트 라우팅 설정
+var userPassport = require('./routes/user_passport');
+userPassport(router, passport);
+
 
 // 홈 화면 - index.ejs 템플릿을 이용해 홈 화면이 보이도록 함
 // router.route('/').get(function(req, res) {
