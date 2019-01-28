@@ -67,7 +67,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-//라우팅 정보를 읽어 들여 라우팅 설정
+// 라우팅 정보를 읽어 들여 라우팅 설정
 var router = express.Router();
 route_loader.init(app, router);
 
@@ -78,7 +78,6 @@ configPassport(app, passport);
 // 패스포트 라우팅 설정
 var userPassport = require('./routes/user_passport');
 userPassport(router, passport);
-
 
 // 홈 화면 - index.ejs 템플릿을 이용해 홈 화면이 보이도록 함
 // router.route('/').get(function(req, res) {

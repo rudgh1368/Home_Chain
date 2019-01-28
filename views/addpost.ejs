@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *Must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>Clever - Education &amp; Courses Template | Home</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="../public/img/core-img/favicon.ico">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../public/css/style.css">
+    <style type="text/css">
+        a, a:hover {
+            color: #000000;
+            text-decoration: none;
+        }
+    </style>
+    <script>
+        function listpost(page, perPage) {
+            document.location = '/listpost?page=' + page + '&perPage=' + perPage;
+        }
+    </script>
+</head>
+
+<body>
+<div id="preloader">
+    <div class="spinner"></div>
+</div>
+<header class="header-area">
+    <!-- Top Header Area -->
+    <div class="top-header-area d-flex justify-content-between align-items-center">
+        <!-- Contact Info -->
+        <div class="contact-info">
+            <a href="#"><span>Phone:</span> +44 300 303 0266</a>
+            <a href="#"><span>Email:</span> info@clever.com</a>
+        </div>
+        <!-- Follow Us -->
+        <div class="follow-us">
+            <span>Follow us</span>
+            <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+        </div>
+    </div>
+    <!-- Navbar Area -->
+    <div class="clever-main-menu">
+        <div class="classy-nav-container breakpoint-off">
+            <!-- Menu -->
+            <nav class="classy-navbar justify-content-between" id="cleverNav">
+
+                <!-- Logo -->
+                <a class="nav-brand" href="/"><img src="../public/img/core-img/logo.png" alt=""></a>
+
+                <!-- Navbar Toggler -->
+                <div class="classy-navbar-toggler">
+                    <span class="navbarToggler"><span></span><span></span><span></span></span>
+                </div>
+
+                <!-- Menu -->
+                <div class="classy-menu">
+
+                    <!-- Close Button -->
+                    <div class="classycloseIcon">
+                        <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                    </div>
+
+                    <!-- Nav Start -->
+                    <div class="classynav">
+                        <ul>
+                            <li><a href="/">Home</a></li>
+                            <li><a href="#">Pages</a>
+                                <ul class="dropdown">
+                                    <li><a href="/">Home</a></li>
+                                    <li><a href="courses.html">Courses</a></li>
+                                    <li><a href="single-course.html">Single Courses</a></li>
+                                    <li><a href="instructors.html">Instructors</a></li>
+                                    <li><a href="blog.html">Blog</a></li>
+                                    <li><a href="blog-details.html">Single Blog</a></li>
+                                    <li><a href="regular-page.html">Regular Page</a></li>
+                                    <li><a href="contact.html">Contact</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="courses.html">Courses</a></li>
+                            <li><a href="instructors.html">Instructors</a></li>
+                            <li><a href="blog.html">Blog</a></li>
+                            <li><a href="contact.html">Contact</a></li>
+                        </ul>
+
+                        <!-- Search Button -->
+                        <div class="search-area">
+                            <form action="#" method="post">
+                                <input type="search" name="search" id="search" placeholder="Search">
+                                <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            </form>
+                        </div>
+
+                        <!-- Register / Login -->
+                        <% if (!login_success) { %>
+                            <div class="register-login-area">
+                                <a href="/signup" class="btn">Register</a>
+                                <a href="/login" class="btn">Login</a>
+                            </div>
+                        <% } else { %>
+                            <div class="login-state d-flex align-items-center">
+                                <div class="user-name mr-30">
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" href="#" role="button" id="userName"
+                                           data-toggle="dropdown" aria-haspopup="true"
+                                           aria-expanded="false"><%= user.id %></a>
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userName">
+                                            <a class="dropdown-item" href="/profile">Profile</a>
+                                            <a class="dropdown-item" href="/logout">Logout</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="userthumb">
+                                    <img src="../public/img/bg-img/t1.png" alt="">
+                                </div>
+                            </div>
+                        <% } %>
+
+                    </div>
+                    <!-- Nav End -->
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+<div class="container">
+    <div class="col-lg-5"></div>
+    <div class="col-lg-5">
+        <div class="jumbotron" style="padding-top: 20px">
+            <h3 style="text-align:center;">게시글 등록</h3>
+            <form method="post" action="/addpost/write">
+                <div class="form-group">
+                    <label>지갑주소</label>
+                    <div class="alert-info"><%= user.wallet_address %></div>
+                </div>
+                <div class="form-group">
+                    <label>아이디</label>
+                    <div class="alert-info"><%= user.id %></div>
+                </div>
+                <div class="form-group">
+                    <label>지역</label>
+                    <div style="text-align: center" class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-primary active">
+                            <input type="radio" name="location" autocomplete="off" value="서울" checked>서울</label>
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="location" autocomplete="off" value="경기" checked>경기</label>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>제목</label>
+                    <input type="text" class="form-control" placeholder="제목" name="title" maxlength="20">
+                </div>
+                <input type="submit" class="btn btn-primary form-control" value="등록">
+            </form>
+        </div>
+    </div>
+    <div class="col-lg-5"></div>
+</div>
+<!-- ##### All Javascript Script ##### -->
+<!-- jQuery-2.2.4 js -->
+<script src="../public/js/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="../public/js/bootstrap/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="../public/js/bootstrap/bootstrap.min.js"></script>
+<!-- All Plugins js -->
+<script src="../public/js/plugins/plugins.js"></script>
+<!-- Active js -->
+<script src="../public/js/active.js"></script>
+</body>
+</html>

@@ -1,3 +1,4 @@
+
 // var register = function (req, res) {
 //     console.log("register 접근");
 //     res.render('signup.ejs');

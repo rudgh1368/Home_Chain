@@ -1,5 +1,4 @@
 // 패스포트 라우팅 함수 정의
-// 여기 모듈로 찢어서 분리해야 할 것 같은데 잘 모르겠어 ㅠㅠ
 
 module.exports = function(router, passport) {
     console.log('user_passport 호출됨.');
@@ -80,4 +79,5 @@ module.exports = function(router, passport) {
         failureRedirect : '/signup',
         failureFlash : true
     }));
+
 }
