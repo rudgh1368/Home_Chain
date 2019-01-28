@@ -1,25 +1,28 @@
 var crypto = require('crypto');
 
-var Schema = {};
+var userSchema = {};
 
-Schema.createSchema = function(mongoose) {
+userSchema.createSchema = function(mongoose) {
 
     // 스키마 정의
     var UserSchema = mongoose.Schema({
-        wallet_address: {type: String, required: true, 'default':''}
-        , id: {type: String, required: true, unique: true, 'default':''}
-        , hashed_password: {type: String, required: true, 'default':''}
-        , name: {type: String, index: 'hashed', 'default':''}
-        , tel: {type: Number, required: true, 'default':''}
-        , address: {type: String, required: true, 'default':''}
-        , salt: {type:String, required:true}
-        , created_at: {type: Date, index: {unique: false}, 'default': Date.now}
-        , updated_at: {type: Date, index: {unique: false}, 'default': Date.now}
+        wallet_address: {type: String, required: true, 'default':''},
+        id: {type: String, required: true, unique: true, 'default':''},
+        hashed_password: {type: String, required: true, 'default':''},
+        name: {type: String, index: 'hashed', 'default':''},
+        tel: {type: Number, required: true, 'default':''},
+        address: {type: String, required: true, 'default':''},
+        posts: [{ // 관련된 게시물의 Smart Contract Address 와 그 때의 역할
+            smart_addr: {type: String},
+            role: {type: Number} // 1: 시행사, 2: 투자자...
+        }],
+        salt: {type:String, required:true},
+        created_at: {type: Date, index: {unique: false}, 'default': Date.now},
+        updated_at: {type: Date, index: {unique: false}, 'default': Date.now}
     });
 
     // password를 virtual 메소드로 정의 : MongoDB에 저장되지 않는 편리한 속성임. 특정 속성을 지정하고 set, get 메소드를 정의함
-    UserSchema
-        .virtual('password')
+    UserSchema.virtual('password')
         .set(function(password) {
             // _password는 가상속성, 저장x
             this._password = password;
@@ -74,27 +77,27 @@ Schema.createSchema = function(mongoose) {
     // 입력된 칼럼의 값이 있는지 확인
     UserSchema.path('wallet_address').validate(function (wallet_address) {
         return wallet_address.length;
-    }, 'wallet_address 칼럼의 값이 없습니다.');
+    }, '지갑 주소를 입력해주세요.');
 
     UserSchema.path('id').validate(function (id) {
         return id.length;
-    }, 'id 칼럼의 값이 없습니다.');
+    }, '아이디를 입력해주세요.');
 
     UserSchema.path('hashed_password').validate(function (hashed_password) {
         return hashed_password.length;
-    }, 'hashed_password 칼럼의 값이 없습니다.');
+    }, '암호를 입력해주세요.');
 
     UserSchema.path('name').validate(function (name) {
         return name.length;
-    }, 'name 칼럼의 값이 없습니다.');
+    }, '이름을 입력해주세요.');
 
     UserSchema.path('tel').validate(function (tel) {
         return tel.length;
-    }, 'tel 칼럼의 값이 없습니다.');
+    }, '전화번호를 입력해주세요.');
 
     UserSchema.path('address').validate(function (address) {
         return address.length;
-    }, 'address 칼럼의 값이 없습니다.');
+    }, '주소를 입력해주세요.');
 
 
     // 모델 객체에서 사용할 수 있는 메소드 정의
@@ -112,4 +115,4 @@ Schema.createSchema = function(mongoose) {
 };
 
 // module.exports에 UserSchema 객체 직접 할당
-module.exports = Schema;
+module.exports = userSchema;
