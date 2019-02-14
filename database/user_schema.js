@@ -58,6 +58,22 @@ userSchema.createSchema = function(mongoose) {
         }
     });
 
+
+    // posts 란 추가, 수정 위한 메소드
+    UserSchema.methods = {
+        savePost: function (callback){
+            var self =
+        },
+        savePost123: function (callback) {
+            var self = this;
+
+            this.validate(function (err) {
+                if (err) return callback(err);
+                self.save(callback);
+            });
+        }
+    }
+
     // 값이 유효한지 확인하는 함수 정의
     var validatePresenceOf = function(value) {
         return value && value.length;

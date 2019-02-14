@@ -87,6 +87,10 @@ var write = function (req, res) {
                 location: paramLocation
             });
 
+            // user 스키마에 작성 글 정보 추가, 글 쓰는건 시행사기 때문에 1번이 됨
+            results.save(function(err){
+
+            })
             post.savePost(function (err, result) {
                 if (err) {
                     if (err) {
@@ -156,9 +160,9 @@ var listpost = function (req, res) {
                     var context = {
                         title: '글 목록',
                         posts: results,
-                        page: parseInt(paramPage),
-                        pageCount: Math.ceil(count / paramPerPage),
-                        perPage: paramPerPage,
+                        page:  1, //parseInt(paramPage),
+                        pageCount: 1, //Math.ceil(count / paramPerPage),
+                        perPage: 10, //paramPerPage,
                         totalRecords: count,
                         size: paramPerPage
                     };

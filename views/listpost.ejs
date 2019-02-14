@@ -115,7 +115,7 @@
                                            data-toggle="dropdown" aria-haspopup="true"
                                            aria-expanded="false"><%= user.id %></a>
                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userName">
-                                            <a class="dropdown-item" href="/profile">Profile</a>
+                                            <a class="dropdown-item" href="/mypage">My Page</a>
                                             <a class="dropdown-item" href="/logout">Logout</a>
                                         </div>
                                     </div>
@@ -152,8 +152,7 @@
                 var curLocation = posts[i]._doc.location;
                 var curWriter = posts[i]._doc.writer.id;
                 var curCreated = posts[i].createdTime;
-                var curNo = noStart - i;
-                console.log(curLocation == '서울');
+                var curNo = noStart - i + totalRecords;
             %>
             <tr>
                 <td><%= curNo %>
@@ -236,7 +235,7 @@
         }
         console.log('max : ' + max);
 
-        for (var i = initial; i < max; i++) {
+        for (var i = initial + 1; i < max; i++) {
         if (i != page) {
         %>
             <div class="ui button" onclick="listpost(<%= i %>, <%= perPage %>)">
