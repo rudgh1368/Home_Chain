@@ -11,7 +11,7 @@ const HomeChain = new web3.eth.Contract(JSON.parse(abi));// abi (json)형식으�
 
 // The transaction does not require a fee.
 HomeChain.options.gasPrice = 0;
-HomeChain.options.address = contract_address;            // contract 주소
+// HomeChain.options.address = contract_address;            // contract 주소
 // HomeChain.options.gas = "";                           // 가스 limit
 
 module.exports = {

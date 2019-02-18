@@ -10,6 +10,12 @@ postSchema.createSchema = function (mongoose) {
         title: {type: String, required: true, trim: true, 'default': ''},
         location: {type: String, required: true},
         smart_addr: {type: String},
+        link1: {type: String},
+        link2: {type: String},
+        link3: {type: String},
+        link4: {type: String},
+        link5: {type: String},
+        fileName: {type: String},
         // comments: [{ // 댓글
         //     contents: {type: String, trim: true, 'default': ''},					// 댓글 내용
         //     writer: {type: mongoose.Schema.ObjectId, ref: 'users6'},
