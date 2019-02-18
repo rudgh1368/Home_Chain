@@ -40,20 +40,38 @@ var addpost = function (req, res) {
 var write = function (req, res) {
     console.log('post 모듈 안에 있는 write 호출됨.');
 
+    var multer = require('multer');
+    var upload = multer({ dest: '../users/uploads/' });
+
     var paramWallet = req.user.wallet_address;
     var paramWriter = req.user.id;
     var paramTitle = req.body.title || req.query.title;
     var paramLocation = req.body.location || req.query.location;
+    var paramLink1 = req.body.link1 || req.query.link1;
+    var paramLink2 = req.body.link2 || req.query.link2;
+    var paramLink3 = req.body.link3 || req.query.link3;
+    var paramLink4 = req.body.link4 || req.query.link4;
+    var paramLink5 = req.body.link5 || req.query.link5;
+    var paramFile = req.body.pdfFile || req.query.pdfFile;
+    paramFile = paramFile.substring(0, paramFile.length - 4);
+
+    try{
+        upload.single('pdfFile');
+    }
+    catch(e){console.log('error');}
 
     console.log('요청 파라미터 : ' + paramWallet + ', ' + paramWriter + ', '
-        + paramTitle + ', ' + paramLocation);
+        + paramTitle + ', ' + paramLocation + ', ' + paramLink1  + ', ' + paramLink2
+        + ', ' + paramLink3 + ', ' + paramLink4 + ', ' + paramLink5 + ', ' + paramFile);
 
     var database = req.app.get('database');
 
     // 데이터베이스 객체가 초기화 된 경우
     if (database.db) {
         // 1. 아이디를 이용해 사용자 검색
-        database.UserModel.findById(paramWriter, function (err, results) {
+        database.UserModel.findById_post(paramWriter, paramTitle, function (err, results) {
+            // findByIdAndUpdate({ query: { name: paramWriter },
+            // update: { $set: {posts: {title: paramTitle, role: 1}}}, new: true}, function (err, results) {
             if (err) {
                 console.error('게시판 글 추가 중 에러 발생 : ' + err.stack);
 
@@ -84,13 +102,30 @@ var write = function (req, res) {
                 dev_wallet: paramWallet,
                 writer: userObjectId,
                 title: paramTitle,
-                location: paramLocation
+                location: paramLocation,
+                link1: paramLink1,
+                link2: paramLink2,
+                link3: paramLink3,
+                link4: paramLink4,
+                link5: paramLink5,
+                fileName: paramFile
             });
-
+            // var user = new database.UserModel(results);
             // user 스키마에 작성 글 정보 추가, 글 쓰는건 시행사기 때문에 1번이 됨
-            results.save(function(err){
-
-            })
+            // user.updateRole(function(err, result){
+            //     if (err) {
+            //         if (err) {
+            //             console.error('rule 설정 오류 : ' + err.stack);
+            //
+            //             res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+            //             res.write('<script>alert("rule 설정 오류");' +
+            //                 'location.href="/addpost"</script>');
+            //             res.end();
+            //
+            //             return;
+            //         }
+            //     }
+            // });
             post.savePost(function (err, result) {
                 if (err) {
                     if (err) {
