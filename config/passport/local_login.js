@@ -6,7 +6,7 @@ module.exports = new LocalStrategy({
     usernameField: 'id',
     passwordField: 'password',
     passReqToCallback: true // 이 옵션을 설정하면 아래 콜백 함수의 첫번째 파라미터로 req 객체 전달
-}, function (req, id, password, done) {
+    }, function (req, id, password, done) {
     console.log('passport의 local-login 호출됨 : ' + id + ', ' + password);
 
     var database = req.app.get('database');
@@ -23,6 +23,7 @@ module.exports = new LocalStrategy({
 
         // 비밀번호 비교하여 맞지 않는 경우
         var authenticated = user.authenticate(password, user._doc.salt, user._doc.hashed_password);
+
         if (!authenticated) {
             console.log('비밀번호 일치하지 않음.');
             return done(null, false, req.flash('loginMessage'), '비밀번호가 일치하지 않습니다.');  // 검증 콜백에서 두 번째 파라미터의 값을 false로 하여 인증 실패한 것으로 처리
