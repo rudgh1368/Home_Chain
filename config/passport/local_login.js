@@ -20,7 +20,6 @@ module.exports = new LocalStrategy({
             console.log('계정이 일치하지 않음.');
             return done(null, false, req.flash('loginMessage', '등록된 계정이 없습니다.')); // 검증 콜백에서 두 번째 파라미터의 값을 false로 하여 인증 실패한 것으로 처리
         }
-
         // 비밀번호 비교하여 맞지 않는 경우
         var authenticated = user.authenticate(password, user._doc.salt, user._doc.hashed_password);
 
