@@ -1,6 +1,7 @@
 module.exports = {
     server_port: 3000,
     db_url: 'mongodb://localhost:27017/local',
+    jsonrpc_api_path : '/api',
     db_schemas: [
         {file:'./user_schema', collection:'hncUsers', schemaName:'UserSchema', modelName:'UserModel'},
         {file:'./post_schema', collection:'hncPosts', schemaName:'PostSchema', modelName:'PostModel'}
