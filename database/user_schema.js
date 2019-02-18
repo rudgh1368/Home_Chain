@@ -61,6 +61,7 @@ userSchema.createSchema = function (mongoose) {
         }
     });
 
+<<<<<<< HEAD
 
     // posts 란 추가, 수정 위한 메소드
     // UserSchema.methods = {
@@ -77,6 +78,8 @@ userSchema.createSchema = function (mongoose) {
     //     }
     // }
 
+=======
+>>>>>>> d1e5283680fe3a9bb6a05cb9f1c86638567cb0a2
     // 값이 유효한지 확인하는 함수 정의
     var validatePresenceOf = function (value) {
         return value && value.length;
