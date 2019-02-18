@@ -15,7 +15,10 @@
     <link rel="icon" href="../public/img/core-img/favicon.ico">
 
     <!-- Stylesheet -->
+    <link rel="stylesheet" href="../public/css/add_style.css">
     <link rel="stylesheet" href="../public/css/style.css">
+    <link rel="stylesheet" href="../public/fonts/material-design-iconic-font/css/material-design-iconic-font.css">
+
     <style type="text/css">
 
         a, a:hover {
@@ -135,44 +138,98 @@
     </div>
 </header>
 <div class="container">
-    <div class="col-lg-5"></div>
-    <div class="col-lg-5">
-        <div class="jumbotron" style="padding-top: 20px">
-            <h3 style="text-align:center;">게시글 등록</h3>
-            <form method="post" action="/addpost/write">
-                <div class="form-group">
-                    <label>지갑주소</label>
-                    <div class="alert-info"><%= user.wallet_address %></div>
-                </div>
-                <div class="form-group">
-                    <label>아이디</label>
-                    <div class="alert-info"><%= user.id %></div>
-                </div>
-                <div class="form-group">
-                    <label>지역</label>
-                    <select class="custom-select my-1 mr-sm-2" name="location">
-                        <option selected>지역선택</option>
-                        <option value="서울">서울</option>
-                        <option value="경기">경기</option>
-                        <option value="강원">강원</option>
-                        <option value="충북">충북</option>
-                        <option value="충남">충남</option>
-                        <option value="경북">경북</option>
-                        <option value="경남">경남</option>
-                        <option value="전북">전북</option>
-                        <option value="전남">전남</option>
-                        <option value="제주">제주</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>제목</label>
-                    <input type="text" class="form-control" placeholder="제목" name="title" maxlength="20">
-                </div>
-                <input type="submit" class="btn btn-primary form-control" value="등록">
-            </form>
-        </div>
+    <div class="wrapper">
+        <!--<div class="image-holder">-->
+        <!--<img src="images/form-wizard.png" alt="">-->
+        <!--</div>-->
+        <form method="post" action="/addpost/write" id="frm">
+            <div id="wizard">
+                <!-- SECTION 1 -->
+                <h4></h4>
+                <section>
+                    <div class="form-row form-group">
+                        <div class="form-holder">
+                            <label>지갑주소</label>
+                            <div><b><%= user.wallet_address %></b></div>
+                            <br>
+                        </div>
+                        <div class="form-holder">
+                            <label>아이디</label>
+                            <div><b><%= user.id %></b></div>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="form-group form-row">
+                        <label>지역</label>
+                        <select class="custom-select my-1 mr-sm-2" name="location">
+                            <option selected>지역선택</option>
+                            <option value="서울">서울</option>
+                            <option value="경기">경기</option>
+                            <option value="강원">강원</option>
+                            <option value="충북">충북</option>
+                            <option value="충남">충남</option>
+                            <option value="경북">경북</option>
+                            <option value="경남">경남</option>
+                            <option value="전북">전북</option>
+                            <option value="전남">전남</option>
+                            <option value="제주">제주</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label>제목</label>
+                        <input type="text" class="form-control" name="title" maxlength="20">
+                    </div>
+                </section>
+
+                <!-- SECTION 2 -->
+                <h4></h4>
+                <section>
+                    <div class="form-row">
+                        <label>
+                            개발내역 링크
+                        </label>
+                        <input type="text" class="form-control" name="link1">
+                    </div>
+                    <div class="form-row">
+                        <label>
+                            인허가 링크
+                        </label>
+                        <input type="text" class="form-control" name="link2">
+                    </div>
+                    <div class="form-row">
+                        <label>
+                            수익성분석 링크
+                        </label>
+                        <input type="text" class="form-control" name="link3">
+                    </div>
+                    <div class="form-row">
+                        <label>
+                            계약 지침 링크
+                        </label>
+                        <input type="text" class="form-control" name="link4">
+                    </div>
+                    <div class="form-row">
+                        <label>
+                            시행사정보 링크
+                        </label>
+                        <input type="text" class="form-control" name="link5">
+                    </div>
+                    <div class="form-row">
+                        <label>
+                            토지 정보
+                        </label>
+                        <input type="file" class="form-control-file" accept=".pdf" name="pdfFile">
+                    </div>
+                    <!--<div class="checkbox">-->
+                        <!--<label>-->
+                            <!--<input type="checkbox"> Create an account?-->
+                            <!--<span class="checkmark"></span>-->
+                        <!--</label>-->
+                    <!--</div>-->
+                </section>
+            </div>
+        </form>
     </div>
-    <div class="col-lg-5"></div>
 </div>
 <!-- ##### All Javascript Script ##### -->
 <!-- jQuery-2.2.4 js -->
@@ -185,5 +242,9 @@
 <script src="../public/js/plugins/plugins.js"></script>
 <!-- Active js -->
 <script src="../public/js/active.js"></script>
+
+<!-- JQUERY STEP -->
+<script src="../public/js/jquery.steps.js"></script>
+<script src="../public/js/main.js"></script>
 </body>
 </html>
