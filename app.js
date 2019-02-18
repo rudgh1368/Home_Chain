@@ -24,7 +24,11 @@ const express = require('express')
     , database = require('./database/database')
 
     // 모듈로 분리한 라우팅 파일 불러오기
-    , route_loader = require('./routes/route_loader');
+    , route_loader = require('./routes/route_loader')
+
+    // JSON-RPC 처리
+    , handler_loader = require('./handlers/handler_loader')
+    , jayson = require('jayson');
 
     // // 파일 업로드용 미들웨어
     // var multer = require('multer');
@@ -66,6 +70,11 @@ app.use(expressSession({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
+
+// JSON-RPC 핸들러 정보를 읽어 들여 핸들러 경로 설정
+var jsonrpc_api_path = config.jsonrpc_api_path || '/api';
+handler_loader.init(jayson, app, jsonrpc_api_path);
+console.log("JSON-RPC를 [" + jsonrpc_api_path + " ] 패스에서 사용하도록 설정함.");
 
 // 라우팅 정보를 읽어 들여 라우팅 설정
 var router = express.Router();
