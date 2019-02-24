@@ -142,7 +142,7 @@
         <!--<div class="image-holder">-->
         <!--<img src="images/form-wizard.png" alt="">-->
         <!--</div>-->
-        <form method="post" action="/addpost/write" id="frm">
+        <form method="post" action="/addpost/write" enctype="multipart/form-data" id="frm">
             <div id="wizard">
                 <!-- SECTION 1 -->
                 <h4></h4>
@@ -228,7 +228,7 @@
                         <label>
                             토지 정보
                         </label>
-                        <input type="file" class="form-control-file" accept=".pdf" name="pdfFile" required>
+                        <input id="uploadFile" type="file" class="form-control-file" accept=".pdf" name="pdfFile" required>
                     </div>
                     <!--<div class="checkbox">-->
                     <!--<label>-->

@@ -30,12 +30,12 @@ const express = require('express')
     , handler_loader = require('./handlers/handler_loader')
     , jayson = require('jayson');
 
-    // // 파일 업로드용 미들웨어
-    // var multer = require('multer');
-    // var fs = require('fs');
-    //
-    // //클라이언트에서 ajax로 요청 시 CORS(다중 서버 접속) 지원
-    // var cors = require('cors');
+    // 파일 업로드용 미들웨어
+    var multer = require('multer');
+    var fs = require('fs');
+
+// //클라이언트에서 ajax로 요청 시 CORS(다중 서버 접속) 지원
+    var cors = require('cors');
 
 
 //===== 뷰 엔진 설정 =====//
@@ -55,6 +55,8 @@ app.use(bodyParser.json());
 // public 폴더를 static으로 오픈
 app.use('/public', static(path.join(__dirname, 'public')));
 
+app.use('/uploads', static(path.join(__dirname, 'uploads')));
+
 // cookie-parser 설정
 app.use(cookieParser());
 
@@ -64,6 +66,8 @@ app.use(expressSession({
     resave:true,
     saveUninitialized:true
 }));
+
+app.use(cors());
 
 //===== Passport 사용 설정 =====//
 // Passport의 세션을 사용할 때는 그 전에 Express의 세션을 사용하는 코드가 있어야 함
@@ -87,12 +91,6 @@ configPassport(app, passport);
 // 패스포트 라우팅 설정
 var userPassport = require('./routes/user_passport');
 userPassport(router, passport);
-
-// 홈 화면 - index.ejs 템플릿을 이용해 홈 화면이 보이도록 함
-// router.route('/').get(function(req, res) {
-//     console.log('/ 패스 요청됨.');
-//     res.render('index.ejs');
-// });
 
 //===== 404 에러 페이지 처리 =====//
 var errorHandler = expressErrorHandler({

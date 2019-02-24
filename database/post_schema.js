@@ -12,12 +12,12 @@ postSchema.createSchema = function (mongoose) {
         title: {type: String, required: true, trim: true, 'default': ''},
         location: {type: String, required: true},
         smart_addr: {type: String},
-        link1: {type: String},
-        link2: {type: String},
-        link3: {type: String},
-        link4: {type: String},
-        link5: {type: String},
-        fileName: {type: String},
+        link1: {type: String, required: true},
+        link2: {type: String, required: true},
+        link3: {type: String, required: true},
+        link4: {type: String, required: true},
+        link5: {type: String, required: true},
+        fileName: {type: String, required: true},
         // comments: [{ // 댓글
         //     contents: {type: String, trim: true, 'default': ''},					// 댓글 내용
         //     writer: {type: mongoose.Schema.ObjectId, ref: 'users6'},
@@ -62,7 +62,13 @@ postSchema.createSchema = function (mongoose) {
     PostSchema.path('duration').required(true, '모금 기한일을 설정해주세요.');
     PostSchema.path('writer').required(true, '먼저 로그인 하세요.');
     PostSchema.path('title').required(true, '제목을 입력해주세요.');
-    PostSchema.path('location').required(true, '지역을 선택해주세요.');
+    PostSchema.path('link1').required(true, '링크를 입력해주세요.');
+    PostSchema.path('link2').required(true, '링크를 입력해주세요.');
+    PostSchema.path('link3').required(true, '링크를 입력해주세요.');
+    PostSchema.path('link4').required(true, '링크를 입력해주세요.');
+    PostSchema.path('link5').required(true, '링크를 입력해주세요.');
+    PostSchema.path('fileName').required(true, '파일을 넣어주세요.');
+
 
     // 스키마에 인스턴스 메소드 추가
     PostSchema.methods = {
