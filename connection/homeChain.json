@@ -86,20 +86,6 @@
   {
     "constant": true,
     "inputs": [],
-    "name": "checkInvent",
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
     "name": "totalSupply",
     "outputs": [
       {
@@ -153,50 +139,29 @@
     "type": "function"
   },
   {
-    "constant": false,
+    "constant": true,
     "inputs": [
       {
-        "name": "_amount",
+        "name": "serial",
         "type": "uint256"
       }
     ],
-    "name": "invest",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "showBuildingInformation",
+    "name": "checkUseToken",
     "outputs": [
       {
-        "name": "_land_information",
-        "type": "string"
+        "name": "_from",
+        "type": "address"
       },
       {
-        "name": "_history",
-        "type": "string"
+        "name": "_to",
+        "type": "address"
       },
       {
-        "name": "_permission",
-        "type": "string"
+        "name": "_amount",
+        "type": "uint256"
       },
       {
-        "name": "_profit_analysis",
-        "type": "string"
-      },
-      {
-        "name": "_demo",
-        "type": "string"
-      },
-      {
-        "name": "_con_guide",
-        "type": "string"
-      },
-      {
-        "name": "_info",
+        "name": "_content",
         "type": "string"
       }
     ],
@@ -251,6 +216,106 @@
         "type": "bool"
       }
     ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "ckeckState",
+    "outputs": [
+      {
+        "name": "__fundingGoalMonry",
+        "type": "uint256"
+      },
+      {
+        "name": "_amountRaised",
+        "type": "uint256"
+      },
+      {
+        "name": "_startTime",
+        "type": "uint256"
+      },
+      {
+        "name": "_deadLine",
+        "type": "uint256"
+      },
+      {
+        "name": "_interestedPersonsNumber",
+        "type": "uint256"
+      },
+      {
+        "name": "_buildingCostructor",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "checkUseTokenAmount",
+    "outputs": [
+      {
+        "name": "length",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "checkDetailState",
+    "outputs": [
+      {
+        "name": "_amount",
+        "type": "uint256"
+      },
+      {
+        "name": "_position",
+        "type": "uint8"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "messageHash",
+        "type": "bytes32"
+      },
+      {
+        "name": "v",
+        "type": "uint8"
+      },
+      {
+        "name": "r",
+        "type": "bytes32"
+      },
+      {
+        "name": "s",
+        "type": "bytes32"
+      },
+      {
+        "name": "_amount",
+        "type": "uint256"
+      },
+      {
+        "name": "_position",
+        "type": "uint8"
+      }
+    ],
+    "name": "investBuilding",
+    "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
@@ -354,12 +419,80 @@
     "type": "function"
   },
   {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "messageHash",
+        "type": "bytes32"
+      },
+      {
+        "name": "v",
+        "type": "uint8"
+      },
+      {
+        "name": "r",
+        "type": "bytes32"
+      },
+      {
+        "name": "s",
+        "type": "bytes32"
+      },
+      {
+        "name": "_position",
+        "type": "uint8"
+      }
+    ],
+    "name": "registerBuildingCostructor",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "constant": true,
     "inputs": [],
     "name": "symbol",
     "outputs": [
       {
         "name": "",
+        "type": "string"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "checkBuildingInformation",
+    "outputs": [
+      {
+        "name": "_land_information",
+        "type": "string"
+      },
+      {
+        "name": "_history",
+        "type": "string"
+      },
+      {
+        "name": "_permission",
+        "type": "string"
+      },
+      {
+        "name": "_profit_analysis",
+        "type": "string"
+      },
+      {
+        "name": "_demo",
+        "type": "string"
+      },
+      {
+        "name": "_con_guide",
+        "type": "string"
+      },
+      {
+        "name": "_info",
         "type": "string"
       }
     ],
@@ -431,25 +564,6 @@
     "constant": true,
     "inputs": [
       {
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "realMoney",
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
         "name": "owner",
         "type": "address"
       },
@@ -478,6 +592,28 @@
       }
     ],
     "name": "transferOwnership",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_to",
+        "type": "address"
+      },
+      {
+        "name": "_amount",
+        "type": "uint256"
+      },
+      {
+        "name": "_content",
+        "type": "string"
+      }
+    ],
+    "name": "useToken",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
