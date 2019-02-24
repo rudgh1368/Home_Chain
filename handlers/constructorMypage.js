@@ -1,6 +1,6 @@
 var constructorMypage = function (params, callback) {
     console.log("JSON-RPC constructorMypage 호출");
-    
+
     var database = global.database;
     var output = {};
     var error = "";
