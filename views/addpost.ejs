@@ -142,7 +142,7 @@
         <!--<div class="image-holder">-->
         <!--<img src="images/form-wizard.png" alt="">-->
         <!--</div>-->
-        <form method="post" action="/addpost/write" id="frm">
+        <form method="post" action="/addpost/write" enctype="multipart/form-data" id="frm">
             <div id="wizard">
                 <!-- SECTION 1 -->
                 <h4></h4>
@@ -218,7 +218,7 @@
                         <label>
                             토지 정보
                         </label>
-                        <input type="file" class="form-control-file" accept=".pdf" name="pdfFile">
+                            <input id="uploadFile" type="file" class="form-control-file" accept=".pdf" name="pdfFile">
                     </div>
                     <!--<div class="checkbox">-->
                         <!--<label>-->
@@ -246,5 +246,6 @@
 <!-- JQUERY STEP -->
 <script src="../public/js/jquery.steps.js"></script>
 <script src="../public/js/main.js"></script>
+
 </body>
 </html>

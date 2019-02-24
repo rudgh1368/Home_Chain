@@ -501,14 +501,6 @@
       {
         "name": "duration",
         "type": "uint256"
-      },
-      {
-        "name": "price",
-        "type": "uint256"
-      },
-      {
-        "name": "goalToken",
-        "type": "uint256"
       }
     ],
     "payable": false,

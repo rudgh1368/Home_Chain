@@ -4,15 +4,15 @@ const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
 const abi = fs.readFileSync(__dirname + '/homeChain.json');
 const bytecode = fs.readFileSync(__dirname + '/homeChain.txt', 'utf8').toString();
 
-// var contract_address = "0x65275e7e40d123563de2b6658c701e9bee3bc5c2";
-
 // HomeChain Setting
 const HomeChain = new web3.eth.Contract(JSON.parse(abi));// abi (json)형식으로 가져와야한다.
 
 // The transaction does not require a fee.
 HomeChain.options.gasPrice = 0;
-// HomeChain.options.address = contract_address;            // contract 주소
-// HomeChain.options.gas = "";                           // 가스 limit
+
+// 은행 정보
+// private key = 0xae950f323a3155496625b2936f84750513488cd85e0ecc1b887dcd2f35999e84
+// adderss = 0xec58179D7BD7CBEd4D1a76376A1c961C61548071
 
 module.exports = {
     createAccount : function(password, callback){
@@ -28,13 +28,14 @@ module.exports = {
         var accountEncryption = web3.eth.accounts.encrypt(privateKey, password);
         console.log("accountEncryption : ", accountEncryption);
 
+        sendEther(address);
         var result = {address : address, privateKey : privateKey, accountEncryption : accountEncryption};
 
         callback(result);
     },
 
     // create SmartContract
-    deploy : function(accountEncryption, password, fundingGoalMonry, duration, price, goalToken, callback){
+    deploy : function(accountEncryption, password, fundingGoalMonry, duration, callback){
         console.log("web3, delpoy 접근");
 
         var accountDecryption = web3.eth.accounts.decrypt(accountEncryption, password);
@@ -43,7 +44,8 @@ module.exports = {
         HomeChain.setProvider(web3.currentProvider);
 
         var transfer = HomeChain.deploy({
-        data : "0x" + bytecode,
+            data : "0x" + bytecode,
+            arguments : [fundingGoalMonry, duration]
         });
         var encodedABI = transfer.encodeABI();
 
@@ -133,10 +135,13 @@ module.exports = {
         HomeChain.setProvider(web3.currentProvider);
         HomeChain.options.address = contractAddress;
 
-        HomeChain.methods.showBuildingInformation().call({
+        HomeChain.methods.checkBuildingInformation().call({
             from : address
         }, function (err, result) {
-            if(err) console.log(err);
+            if(err) {
+                console.log(err);
+                callback(err)
+            }
             else {
                 console.log('showBuildingInformation : ', result)
                 callback(result)
@@ -144,6 +149,10 @@ module.exports = {
         })
     }
 }
+function sendEther(address){
+    web3.eth.sendTransaction({from: '0x5b7C0779F2241bdf429803F0aB63F6948B5aD095', to:address, value: 10000000000000000, gasLimit: 6721975, gasPrice: 0})
+}
+
 
 //ccb192cbf9cf07287e90ac3cb0dca21b5a1d806b
 // 실행하시오!!
@@ -175,3 +184,9 @@ module.exports = {
 //     }
 // })
 
+
+var test = "asdasdasdsd/asdtre122/0/100";
+
+
+var BP = web3.eth.accounts.sign(test, '0xae950f323a3155496625b2936f84750513488cd85e0ecc1b887dcd2f35999e84');
+console.log(BP)

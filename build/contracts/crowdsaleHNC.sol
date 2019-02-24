@@ -2,10 +2,6 @@ pragma solidity >=0.4.22 <0.6.0;
 
 import "./ERC20.sol";
 
-/**
- *  construction investment
- */
-
 contract crowdsaleHNC is ERC20{
     address public beneficiary;                     // developer
     uint public fundingGoal;                        // goal money of a contract
@@ -13,7 +9,10 @@ contract crowdsaleHNC is ERC20{
     uint public startTime;
     uint public deadline;
     uint public price;
+
     mapping(address => uint256) public realMoney;
+    mapping(address => uint8) public position;      // 투자자 : 0, 수분양자 : 1, 시공사 : 2
+
     bool fundingGoalReached = false;
     bool crowdsaleClosed = false;
 
@@ -22,7 +21,6 @@ contract crowdsaleHNC is ERC20{
 
     // time check ( exceed time)
     modifier afterDeadline() { if (now >= deadline) _; }
-    modifier confirmGoalReached() { if (fundingGoalReached == true) _;}
 
     /**
      * Constructor
@@ -30,27 +28,34 @@ contract crowdsaleHNC is ERC20{
     constructor(
         address ifSuccessfulSendTo,         // developer
         uint _fundingGoal,                  // goal money of a contract (real money)
-        uint durationInMinutes,             // the term of a contract
+        uint durationInDays,             // the term of a contract
         uint costOfEachToken                // Price per token
     ) public {
         beneficiary = ifSuccessfulSendTo;
         fundingGoal = _fundingGoal;
         startTime = now;
-        deadline = now + durationInMinutes * 1 minutes;
+        deadline = now + durationInDays * 1 days;
         price = costOfEachToken;
     }
 
     /**
      * Invest function
      */
-    function invest(uint256 _amount) external {
+    function invest(uint256 _amount, uint8 _position) internal {
         require(!crowdsaleClosed);
 
         uint amount = _amount;
+
         realMoney[msg.sender] += amount;                    // invested money
+        position[msg.sender] = _position;
+
         amountRaised += amount;
-        ERC20.transfer(msg.sender, amount / price);         // a token payment for one's investment
+        // ERC20.transfer(msg.sender, amount / price);         // a token payment for one's investment
         emit FundTransfer(msg.sender, amount, true);
+    }
+
+    function myInvestCheck() public view returns(uint256 _amount, uint8 _position) {
+        return (realMoney[msg.sender], position[msg.sender]);
     }
 
     /**
@@ -58,6 +63,7 @@ contract crowdsaleHNC is ERC20{
      */
     function checkInvent() public view returns(uint256) {
         return amountRaised;
+
     }
 
     /**
