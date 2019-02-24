@@ -92,36 +92,6 @@ configPassport(app, passport);
 var userPassport = require('./routes/user_passport');
 userPassport(router, passport);
 
-
-let storage = multer.diskStorage({
-    destination: function(req, file ,callback){
-        callback(null, "upload/")
-    },
-    filename: function(req, file, callback){
-        let extension = path.extname(file.originalname);
-        let basename = path.basename(file.originalname, extension);
-        callback(null, basename + "-" + Date.now() + extension);
-    }
-})
-
-let upload = multer({
-    storage: storage
-})
-
-// 파일 업로드 처리
-router.post('/upload/create', upload.single("imgFile"), function(req, res, next) {
-    console.log("/upload/create 접근");
-    let file = req.file
-
-    let result = {
-        originalName : file.originalname,
-        size : file.size,
-    }
-
-    res.send(true);
-});
-
-
 //===== 404 에러 페이지 처리 =====//
 var errorHandler = expressErrorHandler({
     static: {
