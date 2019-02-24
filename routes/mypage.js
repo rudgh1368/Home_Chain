@@ -23,7 +23,7 @@ var mypage = function (req, res) {
         if (database.db) {
 
             // 작성 글 가져오기 (시행사일 경우)
-            database.UserModel.findOwn(req.user.id, function (err, results_user) {
+            database.UserModel.findRole1(req.user.id, function (err, results_user) {
 
                 if (err) {
                     console.error('시행사 글 조회 중 에러 발생 : ' + err.stack);

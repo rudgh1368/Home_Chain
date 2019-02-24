@@ -130,11 +130,25 @@ userSchema.createSchema = function (mongoose) {
                 {$unwind: "$posts"}],
                 callback)
         },
-        findOwn: function (id, callback) {
+        findRole1: function (id, callback) {
             return this.aggregate(
                 [{$match: {id: id}},
-                {$unwind: "$posts"},
-                {$match: {"posts.role": 1}}],
+                    {$unwind: "$posts"},
+                    {$match: {"posts.role": 1}}],
+                callback);
+        },
+        findRole2: function (id, callback) {
+            return this.aggregate(
+                [{$match: {id: id}},
+                    {$unwind: "$posts"},
+                    {$match: {"posts.role": 2}}],
+                callback);
+        },
+        findRole3: function (id, callback) {
+            return this.aggregate(
+                [{$match: {id: id}},
+                    {$unwind: "$posts"},
+                    {$match: {"posts.role": 3}}],
                 callback);
         }
 
