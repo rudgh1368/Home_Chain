@@ -1,19 +1,19 @@
 var constructorMypage = function (params, callback) {
     console.log("JSON-RPC constructorMypage 호출");
-    console.log(params[0].password);
-
-    var database = req.app.get('database');
+    
+    var database = global.database;
+    var output = {};
+    var error = "";
 
     if (database.db){
-        database.UserModel.findRole3(params[0].user.id, function(err, results_user) {
+        database.UserModel.findRole3(params[0].userID, function(err, results_user) {
             if (err) {
-                console.error('시행사 글 조회 중 에러 발생 : ' + err.stack);
-
-                res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-                res.write('<script>alert("시행사 글 조회 중 에러 발생" + err.stack);' +
-                    'location.href="/"</script>');
-                res.end();
-                return;
+                error = '시행사 글 조회 중 에러 발생 : ' + err.stack;
+                output = {
+                    context: null,
+                    error: error
+                }
+                callback(null, output);
             }
 
             if (results_user) {
@@ -26,62 +26,35 @@ var constructorMypage = function (params, callback) {
 
                     database.PostModel.forMypage(titles, function (err, results_post) {
                         if (err) {
-                            console.error('시행사 글 조회 중 에러 발생 : ' + err.stack);
-
-                            res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-                            res.write('<script>alert("시행사 글 조회 중 에러 발생" + err.stack);' +
-                                'location.href="/"</script>');
-                            res.end();
-                            return;
+                            error = '시행사 글 조회 중 에러 발생 : ' + err.stack;
+                            output = {
+                                context: null,
+                                error: error
+                            }
+                            callback(null, output);
                         }
 
                         if (results_post) {
                             console.dir(results_post);
-                            context.posts = results_post;
-                            res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-                            req.app.render('mypage', context, function (err, html) {
-                                if (err) {
-                                    console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
-
-                                    res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-                                    res.write('<script>alert("응답 웹문서 생성 중 에러 발생" + err.stack);' +
-                                        'location.href="/"</script>');
-                                    res.end();
-                                    return;
-                                }
-
-                                res.end(html);
-                            });
+                            var output = {context : results_post, error : null};
+                            callback(null, output);
                         } else {
-                            res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-                            res.write('<script>alert("글 조회 실패" + err.stack);' +
-                                'location.href="/"</script>');
-                            res.end();
+                            error = '글 조회 실패 : ' + err.stack;
+                            output = {
+                                context: null,
+                                error: error
+                            }
+                            callback(null, output);
                         }
                     });
                 } else {
-                    context.posts = 0;
-                    res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-                    req.app.render('mypage', context, function (err, html) {
-                        if (err) {
-                            console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
-
-                            res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-                            res.write('<script>alert("응답 웹문서 생성 중 에러 발생" + err.stack);' +
-                                'location.href="/"</script>');
-                            res.end();
-                            return;
-                        }
-
-                        res.end(html);
-                    });
+                    output = {context : 0, error : null};
+                    callback(null, output);
                 }
 
             } else {
-                res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-                res.write('<script>alert("글 조회 실패" + err.stack);' +
-                    'location.href="/"</script>');
-                res.end();
+                output = {context : null, error : "글 조회 실패"};
+                callback(null, output);
             }
         })
     }

@@ -2,15 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="84cc6ea4-c7f1-4133-9744-636c7b6dcc3e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/handlers/constructorMypage.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/handlers/investorMypage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/user_schema.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/user_schema.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/handler_info.js" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/handler_info.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/mypage.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/mypage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/post.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/post.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/addpost.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/addpost.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/mypage.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/mypage.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/constructorMypage.js" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/constructorMypage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/investorMypage.js" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/investorMypage.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -158,19 +152,19 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="css" value="1" />
-          <entry key="ejs" value="69" />
+          <entry key="ejs" value="70" />
           <entry key="gitignore" value="1" />
           <entry key="html" value="21" />
-          <entry key="js" value="171" />
+          <entry key="js" value="173" />
           <entry key="sol" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CSS" value="1" />
-          <entry key="EJS" value="69" />
+          <entry key="EJS" value="70" />
           <entry key="HTML" value="21" />
-          <entry key="JavaScript" value="171" />
+          <entry key="JavaScript" value="173" />
           <entry key="PLAIN_TEXT" value="1" />
           <entry key="Solidity file" value="1" />
         </counts>
@@ -179,7 +173,7 @@
         <counts>
           <entry key="ejs" value="8079" />
           <entry key="html" value="125" />
-          <entry key="js" value="18827" />
+          <entry key="js" value="19295" />
           <entry key="txt" value="60" />
         </counts>
       </usages-collector>
@@ -187,7 +181,7 @@
         <counts>
           <entry key="EJS" value="8079" />
           <entry key="HTML" value="125" />
-          <entry key="JavaScript" value="18827" />
+          <entry key="JavaScript" value="19295" />
           <entry key="PLAIN_TEXT" value="60" />
         </counts>
       </usages-collector>
@@ -198,20 +192,38 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/handlers/constructorMypage.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="8" selection-start-line="8" selection-end-line="8" />
+            <state relative-caret-position="44">
+              <caret line="2" column="4" lean-forward="true" selection-start-line="2" selection-start-column="4" selection-end-line="2" selection-end-column="4" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/routes/mypage.js">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/handlers/createAccount.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="176">
-              <caret line="29" lean-forward="true" selection-start-line="27" selection-start-column="16" selection-end-line="29" />
+              <caret line="8" column="6" lean-forward="true" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/handlers/handler_loader.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="572">
+              <caret line="26" column="38" lean-forward="true" selection-start-line="26" selection-start-column="38" selection-end-line="26" selection-end-column="38" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/mypage.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="352">
+              <caret line="103" column="17" lean-forward="true" selection-start-line="27" selection-start-column="16" selection-end-line="103" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -220,7 +232,16 @@
         <entry file="file://$PROJECT_DIR$/handlers/investorMypage.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="66">
-              <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+              <caret line="3" selection-start-line="3" selection-end-line="59" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/mypage.ejs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="174">
+              <caret line="181" column="31" lean-forward="true" selection-start-line="181" selection-start-column="31" selection-end-line="181" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -238,9 +259,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>display</find>
-      <find>section3</find>
-      <find>voca</find>
       <find>시행사</find>
       <find>statics</find>
       <find>/listpost</find>
@@ -249,7 +267,6 @@
       <find>회원정</find>
       <find>paramid</find>
       <find>post</find>
-      <find>context</find>
       <find>english</find>
       <find>deserializeUser()</find>
       <find>posts</find>
@@ -268,6 +285,10 @@
       <find>datepicker</find>
       <find>dateP</find>
       <find>date</find>
+      <find>callback</find>
+      <find>context</find>
+      <find>0</find>
+      <find>if</find>
     </findStrings>
     <dirStrings>
       <dir>C:\Users\Xnotep\Desktop\my\homeNchain\semplete\Server(templete)</dir>
@@ -311,7 +332,6 @@
         <option value="$PROJECT_DIR$/views/login.ejs" />
         <option value="$PROJECT_DIR$/views/showpost.ejs" />
         <option value="$PROJECT_DIR$/config/passport/local_signup.js" />
-        <option value="$PROJECT_DIR$/handlers/createAccount.js" />
         <option value="$PROJECT_DIR$/views/signup.ejs" />
         <option value="$PROJECT_DIR$/views/index.ejs" />
         <option value="$PROJECT_DIR$/public/js/active.js" />
@@ -329,6 +349,7 @@
         <option value="$PROJECT_DIR$/views/mypage.ejs" />
         <option value="$PROJECT_DIR$/database/user_schema.js" />
         <option value="$PROJECT_DIR$/routes/mypage.js" />
+        <option value="$PROJECT_DIR$/handlers/createAccount.js" />
         <option value="$PROJECT_DIR$/handlers/investorMypage.js" />
         <option value="$PROJECT_DIR$/handlers/constructorMypage.js" />
       </list>
@@ -476,7 +497,7 @@
       <workItem from="1548207310075" duration="72791000" />
       <workItem from="1550126877157" duration="597000" />
       <workItem from="1550474708817" duration="97000" />
-      <workItem from="1550474969319" duration="76922000" />
+      <workItem from="1550474969319" duration="78988000" />
     </task>
     <task id="LOCAL-00001" summary="패스포트로 로그인 설정">
       <created>1548387493806</created>
@@ -513,11 +534,18 @@
       <option name="project" value="LOCAL" />
       <updated>1550998381505</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="merged">
+      <created>1551003551242</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1551003551243</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="201036000" />
+    <option name="totallyTimeSpent" value="203102000" />
   </component>
   <component name="TodoView" selected-index="4">
     <todo-panel id="selected-file">
@@ -566,13 +594,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="merged" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/node_modules/express/lib/application.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="591" column="2" selection-start-line="591" selection-start-column="2" selection-end-line="591" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/kareem/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="149">
@@ -707,13 +728,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="154">
           <caret line="46" column="7" lean-forward="true" selection-start-line="46" selection-start-column="7" selection-end-line="46" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/handlers/createAccount.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="10" column="31" lean-forward="true" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
         </state>
       </provider>
     </entry>
@@ -883,34 +897,45 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/routes/mypage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="103" column="17" lean-forward="true" selection-start-line="27" selection-start-column="16" selection-end-line="103" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/handlers/handler_loader.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="572">
+          <caret line="26" column="38" lean-forward="true" selection-start-line="26" selection-start-column="38" selection-end-line="26" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/handlers/createAccount.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="8" column="6" lean-forward="true" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/views/mypage.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="950">
-          <caret line="583" column="9" lean-forward="true" selection-start-line="583" selection-start-column="9" selection-end-line="583" selection-end-column="9" />
-          <folding>
-            <element signature="n#style#0;n#section#2;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="174">
+          <caret line="181" column="31" lean-forward="true" selection-start-line="181" selection-start-column="31" selection-end-line="181" selection-end-column="31" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/handlers/investorMypage.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="66">
-          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+          <caret line="3" selection-start-line="3" selection-end-line="59" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/handlers/constructorMypage.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="8" selection-start-line="8" selection-end-line="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/mypage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="29" lean-forward="true" selection-start-line="27" selection-start-column="16" selection-end-line="29" />
+        <state relative-caret-position="44">
+          <caret line="2" column="4" lean-forward="true" selection-start-line="2" selection-start-column="4" selection-end-line="2" selection-end-column="4" />
         </state>
       </provider>
     </entry>
