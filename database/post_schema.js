@@ -7,6 +7,8 @@ postSchema.createSchema = function (mongoose) {
     var PostSchema = mongoose.Schema({
         dev_wallet: {type: String, required: true},
         writer: {type: mongoose.Schema.ObjectId, ref: 'hncUsers', required: true},
+        goal_fund: {type: String, required: true},
+        duration: {type: Date, required: true},
         title: {type: String, required: true, trim: true, 'default': ''},
         location: {type: String, required: true},
         smart_addr: {type: String},
@@ -56,6 +58,8 @@ postSchema.createSchema = function (mongoose) {
     // 스키마에 모델 인스턴스에서 사용할 수 있는 메소드 추가
     // 필수 속성에 대한 required validation
     PostSchema.path('dev_wallet').required(true, '먼저 로그인 하세요.');
+    PostSchema.path('goal_fund').required(true, '목표 모금액을 설정해주세요.');
+    PostSchema.path('duration').required(true, '모금 기한일을 설정해주세요.');
     PostSchema.path('writer').required(true, '먼저 로그인 하세요.');
     PostSchema.path('title').required(true, '제목을 입력해주세요.');
     PostSchema.path('location').required(true, '지역을 선택해주세요.');
@@ -107,6 +111,24 @@ postSchema.createSchema = function (mongoose) {
                 .limit(Number(options.perPage))
                 .skip(options.perPage * options.page)
                 .exec(callback);
+        },
+        counting: function() {
+                var self = this;
+                // 비동기 문제를 해결하기 위한 promise 사용
+                return new Promise(function (resolve, reject){
+                    resolve(self.collection.countDocuments());
+                });
+        },
+        findByTitle: function(title, callback){
+            return this.find({title: title}, callback);
+        },
+        forMypage: function(list, callback){
+            var titles = [];
+            for (i = 0; i < list.length; i++){
+                titles[i] = {title: list[i]};
+            }
+            console.log(titles);
+            return this.find({$or: titles}, callback);
         }
     }
 

@@ -5,20 +5,33 @@ module.exports = function(router, passport) {
 
     // 메인화면
     router.route('/').get(function(req, res){
+        var database = req.app.get('database');
+        var menu_count = 0;
+        if (database.db){
+            // counting()이 실행된 후 실행
+            database.PostModel.counting().then(function (result){
+                menu_count = result;
+                var context = {count: menu_count};
+                // 인증 안된 경우
+                if(!req.user){
+                    console.log('사용자 인증 안된 상태임.');
+                    context.login_success = false;
+                    res.render('index.ejs', context);
+                } else{
+                    console.log('사용자 인증된 상태임.');
+                    console.log('회원정보 로드.');
+                    console.dir(req.user);
+                    context.login_success = true;
+                    context.user = req.user;
+                    res.render('index.ejs', context);
+                }
+            }).catch(function (e){
+                console.log("error in promise");
+            });
+        }
         console.log('/ 패스 요청됨.');
         console.log('req.user의 정보');
         console.dir(req.user);
-
-        // 인증 안된 경우
-        if(!req.user){
-            console.log('사용자 인증 안된 상태임.');
-            res.render('index.ejs', {login_success:false});
-        } else{
-            console.log('사용자 인증된 상태임.');
-            console.log('회원정보 로드.');
-            console.dir(req.user);
-            res.render('index.ejs', {login_success: true, user: req.user});
-        }
     });
 
     // 로그인 화면

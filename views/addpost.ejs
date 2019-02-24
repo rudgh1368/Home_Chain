@@ -83,7 +83,7 @@
                                 <ul class="dropdown">
                                     <li><a href="/">Home</a></li>
                                     <li><a href="courses.html">Courses</a></li>
-                                    <li><a href="single-course.html">Single Courses</a></li>
+                                    <li><a href="showpost.ejs">Single Courses</a></li>
                                     <li><a href="instructors.html">Instructors</a></li>
                                     <li><a href="blog.html">Blog</a></li>
                                     <li><a href="blog-details.html">Single Blog</a></li>
@@ -159,9 +159,19 @@
                             <br>
                         </div>
                     </div>
+                    <div class="form-row form-group">
+                        <div class="form-holder">
+                            <label>목표 모금액 (만원)</label>
+                            <input type="text" class="form-control" name="goal_fund" required>
+                        </div>
+                        <div class="form-holder">
+                            <label>모금 기한일</label>
+                            <input type="date" class="form-control" name="date" required>
+                        </div>
+                    </div>
                     <div class="form-group form-row">
                         <label>지역</label>
-                        <select class="custom-select my-1 mr-sm-2" name="location">
+                        <select class="custom-select my-1 mr-sm-2" name="location" required>
                             <option selected>지역선택</option>
                             <option value="서울">서울</option>
                             <option value="경기">경기</option>
@@ -177,7 +187,7 @@
                     </div>
                     <div class="form-row">
                         <label>제목</label>
-                        <input type="text" class="form-control" name="title" maxlength="20">
+                        <input type="text" class="form-control" name="title" maxlength="20" required>
                     </div>
                 </section>
 
@@ -188,43 +198,43 @@
                         <label>
                             개발내역 링크
                         </label>
-                        <input type="text" class="form-control" name="link1">
+                        <input type="text" class="form-control" name="link1" required>
                     </div>
                     <div class="form-row">
                         <label>
                             인허가 링크
                         </label>
-                        <input type="text" class="form-control" name="link2">
+                        <input type="text" class="form-control" name="link2" required>
                     </div>
                     <div class="form-row">
                         <label>
                             수익성분석 링크
                         </label>
-                        <input type="text" class="form-control" name="link3">
+                        <input type="text" class="form-control" name="link3" required>
                     </div>
                     <div class="form-row">
                         <label>
                             계약 지침 링크
                         </label>
-                        <input type="text" class="form-control" name="link4">
+                        <input type="text" class="form-control" name="link4" required>
                     </div>
                     <div class="form-row">
                         <label>
                             시행사정보 링크
                         </label>
-                        <input type="text" class="form-control" name="link5">
+                        <input type="text" class="form-control" name="link5" required>
                     </div>
                     <div class="form-row">
                         <label>
                             토지 정보
                         </label>
-                        <input type="file" class="form-control-file" accept=".pdf" name="pdfFile">
+                        <input type="file" class="form-control-file" accept=".pdf" name="pdfFile" required>
                     </div>
                     <!--<div class="checkbox">-->
-                        <!--<label>-->
-                            <!--<input type="checkbox"> Create an account?-->
-                            <!--<span class="checkmark"></span>-->
-                        <!--</label>-->
+                    <!--<label>-->
+                    <!--<input type="checkbox"> Create an account?-->
+                    <!--<span class="checkmark"></span>-->
+                    <!--</label>-->
                     <!--</div>-->
                 </section>
             </div>

@@ -9,31 +9,27 @@
     <!-- The above 4 meta tags *Must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title -->
-    <title>Clever - Education &amp; Courses Template | Home</title>
+    <title>Clever - Education &amp; Courses Template | Regular Page</title>
 
     <!-- Favicon -->
     <link rel="icon" href="../public/img/core-img/favicon.ico">
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../public/css/style.css">
-    <style type="text/css">
-        a, a:hover {
-            color: #000000;
-            text-decoration: none;
-        }
-    </style>
-    <script>
-        function listpost(page, perPage) {
-            document.location = '/listpost?page=' + page + '&perPage=' + perPage;
-        }
-    </script>
+
+    <!-- Scrollbar -->
+    <link rel="stylesheet" href="../public/css/scrollbar.css">
 </head>
 
 <body>
+<!-- Preloader -->
 <div id="preloader">
     <div class="spinner"></div>
 </div>
+
+<!-- ##### Header Area Start ##### -->
 <header class="header-area">
+
     <!-- Top Header Area -->
     <div class="top-header-area d-flex justify-content-between align-items-center">
         <!-- Contact Info -->
@@ -49,6 +45,7 @@
             <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
         </div>
     </div>
+
     <!-- Navbar Area -->
     <div class="clever-main-menu">
         <div class="classy-nav-container breakpoint-off">
@@ -56,7 +53,7 @@
             <nav class="classy-navbar justify-content-between" id="cleverNav">
 
                 <!-- Logo -->
-                <a class="nav-brand" href="/"><img src="../public/img/core-img/logo.png" alt=""></a>
+                <a class="nav-brand" href="index.ejs"><img src="../public/img/core-img/logo.png" alt=""></a>
 
                 <!-- Navbar Toggler -->
                 <div class="classy-navbar-toggler">
@@ -74,10 +71,10 @@
                     <!-- Nav Start -->
                     <div class="classynav">
                         <ul>
-                            <li><a href="/">Home</a></li>
+                            <li><a href="index.ejs">Home</a></li>
                             <li><a href="#">Pages</a>
                                 <ul class="dropdown">
-                                    <li><a href="/">Home</a></li>
+                                    <li><a href="index.ejs">Home</a></li>
                                     <li><a href="courses.html">Courses</a></li>
                                     <li><a href="showpost.ejs">Single Courses</a></li>
                                     <li><a href="instructors.html">Instructors</a></li>
@@ -133,150 +130,106 @@
         </div>
     </div>
 </header>
-<div class="container">
-    <div class="row">
-        <table class="table table-striped" style="text-align: center; border: 1px solid #dddddd">
-            <thead>
-            <tr>
-                <th style="background-color: #eeeeee; text-align: center">번호</th>
-                <th style="background-color: #eeeeee; text-align: center">지역</th>
-                <th style="background-color: #eeeeee; text-align: center">제목</th>
-                <th style="background-color: #eeeeee; text-align: center">작성자</th>
-                <th style="background-color: #eeeeee; text-align: center">작성일</th>
-            </tr>
-            </thead>
-            <tbody>
-            <% var noStart = (pageCount - page) * perPage;
-            for (var i = 0; i < posts.length; i++) {
-                var curTitle = posts[i]._doc.title;
-                var curLocation = posts[i]._doc.location;
-                var curWriter = posts[i]._doc.writer.id;
-                var curCreated = posts[i].createdTime;
-                var curNo = noStart - i + totalRecords;
-            %>
-            <tr>
-                <td><%= curNo %>
-                </td>
-                <% if (curLocation == '서울') { %>
-                    <td style="color: #F00001"><%= curLocation %>
-                    </td>
-                <% } else if(curLocation == '경기') { %>
-                    <td style="color: #3881FD"><%= curLocation %>
-                    </td>
-                <% } else if(curLocation == '강원') { %>
-                    <td style="color: #F6B003"><%= curLocation %>
-                    </td>
-                <% } else if(curLocation == '충북') { %>
-                    <td style="color: #BAD003"><%= curLocation %>
-                    </td>
-                <% } else if(curLocation == '충남') { %>
-                    <td style="color: #4EAB02"><%= curLocation %>
-                    </td>
-                <% } else if(curLocation == '경북') { %>
-                    <td style="color: #01594B"><%= curLocation %>
-                    </td>
-                <% } else if(curLocation == '경남') { %>
-                    <td style="color: #013275"><%= curLocation %>
-                    </td>
-                <% } else if(curLocation == '전북') { %>
-                    <td style="color: #460070"><%= curLocation %>
-                    </td>
-                <% } else if(curLocation == '전남') { %>
-                    <td style="color: #9E0057"><%= curLocation %>
-                    </td>
-                <% } else if(curLocation == '제주') { %>
-                    <td style="color: #BF0036"><%= curLocation %>
-                    </td>
-                <% } else { %>
-                    <td><%= curLocation %>
-                    </td>
-                <% } %>
-                <td>
-                    <a href="/showpost/<%= posts[i]._id %>"><%= curTitle %>
-                    </a></td>
-                <td><%= curWriter %>
-                </td>
-                <td><%= curCreated %>
-                </td>
-            </tr>
-            <%
-            }
-            %>
-            </tbody>
-        </table>
-        <%
-        if (page > 0) {
-        %>
-            <div class="register-login-area">
-                <a onclick="listpost(0, <%= perPage %>)" class="btn arrow">이전</a>
-                <a onclick="listpost(<%= (page - 1) %>, <%= perPage %>)" class="btn arrow">다음</a>
-            </div>
-        <%
-        } else {
-        %>
-            <div class="register-login-area">
-                <a class="btn">이전</a>
-                <a class="btn">다음</a>
-            </div>
-        <%
-        }
-        %>
+<!-- ##### Header Area End ##### -->
 
-        <%
-        console.log(page);
-        var initial = Math.floor(page / 10) * 10;
-        console.log('initial : ' + initial);
+<!-- ##### Regular Page Area Start ##### -->
+<div class="regular-page-area section-padding-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <!-- Exaple 1 -->
+                <div class="card example-1 square scrollbar-cyan bordered-cyan" style="height: 500px;">
+                    <div class="page-content">
+                        <h4>Community Guidelines</h4>
+                        <p>Sed elementum lacus a risus luctus suscipit. Aenean sollicitudin sapien neque, in fermentum
+                            lorem
+                            dignissim a. Nullam eu mattis quam. Donec porttitor nunc a diam molestie blandit. Maecenas
+                            quis
+                            ultrices ex. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nullam eget
+                            vehicula
+                            lorem, vitae porta nisi. Ut vel quam erat. Ut vitae erat tincidunt, tristique mi ac,
+                            pharetra
+                            dolor. In et suscipit ex. Pellentesque aliquet velit tortor, eget placerat mi scelerisque a.
+                            Aliquam eu dui efficitur purus posuere viverra. Proin ut elit mollis, euismod diam et,
+                            fermentum
+                            enim.</p>
+                    </div>
+                    <div class="page-content">
+                        <h4 id="section1"><strong>Second title of the news</strong></h4>
+                        <p>Ad leggings keytar, brunch id art party dolor labore. Pitchfork yr enim lo-fi before they
+                            sold
+                            out
+                            qui. Tumblr farm-to-table bicycle rights whatever. Anim keffiyeh carles cardigan. Velit
+                            seitan
+                            mcsweeney's photo booth 3 wolf moon irure. Cosby sweater lomo jean shorts, williamsburg
+                            hoodie
+                            minim
+                            qui you probably haven't heard of them et cardigan trust fund culpa biodiesel wes anderson
+                            aesthetic.
+                            Nihil tattooed accusamus, cred irony biodiesel keffiyeh artisan ullamco consequat.</p>
+                        <p>Ad leggings keytar, brunch id art party dolor labore. Pitchfork yr enim lo-fi before they
+                            sold
+                            out
+                            qui. Tumblr farm-to-table bicycle rights whatever. Anim keffiyeh carles cardigan. Velit
+                            seitan
+                            mcsweeney's photo booth 3 wolf moon irure. Cosby sweater lomo jean shorts, williamsburg
+                            hoodie
+                            minim
+                            qui you probably haven't heard of them et cardigan trust fund culpa biodiesel wes anderson
+                            aesthetic.
+                            Nihil tattooed accusamus, cred irony biodiesel keffiyeh artisan ullamco consequat.</p>
+                    </div>
+                </div>
+                <!-- Exaple 1 -->
 
-        var max = pageCount - initial;
-        if (max > 10) {
-            max = initial + 10;
-        } else {
-            max = initial + max;
-        }
-        console.log('max : ' + max);
-
-        for (var i = initial + 1; i < max; i++) {
-        if (i != page) {
-        %>
-            <div class="ui button" onclick="listpost(<%= i %>, <%= perPage %>)">
-                <%= i %>
             </div>
-        <%
-        } else {
-        %>
-            <div class="ui active basic button">
-                <%= i %>
-            </div>
-        <%
-        }
-        }
-        %>
-        <%
-        if ((page + 1) < pageCount) {
-        %>
-            <div class="ui icon button" onclick="listpost(<%= (page + 1) %>, <%= perPage %>)">
-                <i class="right chevron icon"></i>
-            </div>
-            <div class="ui icon button" onclick="listpost(<%= (pageCount - 1) %>, <%= perPage %>)">
-                <i class="forward icon"></i>
-            </div>
-        <%
-        } else {
-        %>
-            <div class="ui disabled icon button">
-                <i class="right chevron icon"></i>
-            </div>
-            <div class="ui disabled icon button">
-                <i class="forward icon"></i>
-            </div>
-        <%
-        }
-        %>
-        <div class="register-login-area">
-            <a href="/addpost" class="btn active">글쓰기</a>
         </div>
     </div>
 </div>
+<!-- ##### Regular Page Area End ##### -->
+
+<!-- ##### Footer Area Start ##### -->
+<footer class="footer-area">
+    <!-- Top Footer Area -->
+    <div class="top-footer-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- Footer Logo -->
+                    <div class="footer-logo">
+                        <a href="index.ejs"><img src="../public/img/core-img/logo2.png" alt=""></a>
+                    </div>
+                    <!-- Copywrite -->
+                    <p><a href="#">
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                        All rights reserved | This template is made with <i class="fa fa-heart-o"
+                                                                            aria-hidden="true"></i> by <a
+                            href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Footer Area -->
+    <div class="bottom-footer-area d-flex justify-content-between align-items-center">
+        <!-- Contact Info -->
+        <div class="contact-info">
+            <a href="#"><span>Phone:</span> +44 300 303 0266</a>
+            <a href="#"><span>Email:</span> info@clever.com</a>
+        </div>
+        <!-- Follow Us -->
+        <div class="follow-us">
+            <span>Follow us</span>
+            <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+        </div>
+    </div>
+</footer>
+<!-- ##### Footer Area End ##### -->
+
 <!-- ##### All Javascript Script ##### -->
 <!-- jQuery-2.2.4 js -->
 <script src="../public/js/jquery/jquery-2.2.4.min.js"></script>
@@ -289,4 +242,5 @@
 <!-- Active js -->
 <script src="../public/js/active.js"></script>
 </body>
+
 </html>

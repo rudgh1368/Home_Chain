@@ -7,10 +7,12 @@ userSchema.createSchema = function (mongoose) {
     // 스키마 정의
     var UserSchema = mongoose.Schema({
         wallet_address: {type: String, required: true, 'default': ''},
+        wallet_password: {type: String, required: true, 'default': ''},
+        accountEncryption: {type: Object, required: true, 'default': ''},
         id: {type: String, required: true, unique: true, 'default': ''},
         hashed_password: {type: String, required: true, 'default': ''},
         name: {type: String, index: 'hashed', 'default': ''},
-        tel: {type: Number, required: true, 'default': ''},
+        tel: {type: String, required: true, 'default': ''},
         address: {type: String, required: true, 'default': ''},
         posts: [{ // 관련된 게시물의 Smart Contract Address 와 그 때의 역할
             smart_addr: {type: String},
@@ -82,6 +84,14 @@ userSchema.createSchema = function (mongoose) {
         return wallet_address.length;
     }, '지갑 주소를 입력해주세요.');
 
+    UserSchema.path('wallet_password').validate(function (wallet_password) {
+        return wallet_password.length;
+    }, '지갑 비밀번호를 입력해주세요.');
+
+    UserSchema.path('accountEncryption').validate(function (accountEncryption) {
+        return accountEncryption.length;
+    }, '지갑 비밀번호를 입력해주세요.');
+
     UserSchema.path('id').validate(function (id) {
         return id.length;
     }, '아이디를 입력해주세요.');
@@ -104,20 +114,32 @@ userSchema.createSchema = function (mongoose) {
 
 
     // 모델 객체에서 사용할 수 있는 메소드 정의
-    UserSchema.static('findById', function (id, callback) {
-        return this.find({id: id}, callback);
-    });
+    UserSchema.statics = {
+        findById: function (id, callback) {
+            return this.find({id: id}, callback);
+        },
+        adding_post: function (id, title, callback) {
+            this.update({id: id}, {$push: {posts: {title: title, role: 1}}}, function (e) {
+                console.log("posts 업데이트 됨");
+            });
+            return this.find({id: id}, callback);
+        },
+        splitPost: function (id, callback) {
+            return this.aggregate(
+                [{$match: {id: id}},
+                {$unwind: "$posts"}],
+                callback)
+        },
+        findOwn: function (id, callback) {
+            return this.aggregate(
+                [{$match: {id: id}},
+                {$unwind: "$posts"},
+                {$match: {"posts.role": 1}}],
+                callback);
+        }
 
-    UserSchema.static('findById_post', function (id, title, callback) {
-        this.update({id: id}, { $set: { posts: { title: title, role: 1}}}, function (e){
-            console.log("posts 업데이트 됨");
-        });
-        return this.find({id: id}, callback);
-    });
+    }
 
-    UserSchema.static('findAll', function (callback) {
-        return this.find({}, callback);
-    });
 
     console.log('UserSchema 정의함.');
 

@@ -1,7 +1,7 @@
 // 게시판을 위한 라우팅 함수 정의
 
 // showpost.ejs 에서 사용함
-var Entites = require('html-entities').AllHtmlEntities;
+var Entities = require('html-entities').AllHtmlEntities;
 
 var addpost = function (req, res) {
     console.log('post 모듈 안에 있는 addpost 호출됨.');
@@ -41,37 +41,42 @@ var write = function (req, res) {
     console.log('post 모듈 안에 있는 write 호출됨.');
 
     var multer = require('multer');
-    var upload = multer({ dest: '../users/uploads/' });
+    var upload = multer({dest: '../users/uploads/'});
 
     var paramWallet = req.user.wallet_address;
     var paramWriter = req.user.id;
     var paramTitle = req.body.title || req.query.title;
     var paramLocation = req.body.location || req.query.location;
+    var paramGoal = req.body.goal_fund || req.query.goal_fund;
+    var paramDate = req.body.date || req.query.date;
     var paramLink1 = req.body.link1 || req.query.link1;
     var paramLink2 = req.body.link2 || req.query.link2;
     var paramLink3 = req.body.link3 || req.query.link3;
     var paramLink4 = req.body.link4 || req.query.link4;
     var paramLink5 = req.body.link5 || req.query.link5;
     var paramFile = req.body.pdfFile || req.query.pdfFile;
-    paramFile = paramFile.substring(0, paramFile.length - 4);
+    if (paramFile) {
+        paramFile = paramFile.substring(0, paramFile.length - 4);
 
-    try{
-        upload.single('pdfFile');
+        try {
+            upload.single('pdfFile');
+        }
+        catch (e) {
+            console.log('error');
+        }
     }
-    catch(e){console.log('error');}
 
-    console.log('요청 파라미터 : ' + paramWallet + ', ' + paramWriter + ', '
-        + paramTitle + ', ' + paramLocation + ', ' + paramLink1  + ', ' + paramLink2
-        + ', ' + paramLink3 + ', ' + paramLink4 + ', ' + paramLink5 + ', ' + paramFile);
+
+    console.log('요청 파라미터 : ' + paramWallet + ', ' + paramWriter + ', ' + paramTitle
+        + ', ' + paramLocation + ', ' + paramGoal + ', ' + paramDate + ', ' + paramLink1 + ', '
+        + paramLink2 + ', ' + paramLink3 + ', ' + paramLink4 + ', ' + paramLink5 + ', ' + paramFile);
 
     var database = req.app.get('database');
 
     // 데이터베이스 객체가 초기화 된 경우
     if (database.db) {
         // 1. 아이디를 이용해 사용자 검색
-        database.UserModel.findById_post(paramWriter, paramTitle, function (err, results) {
-            // findByIdAndUpdate({ query: { name: paramWriter },
-            // update: { $set: {posts: {title: paramTitle, role: 1}}}, new: true}, function (err, results) {
+        database.UserModel.adding_post(paramWriter, paramTitle, function (err, results) {
             if (err) {
                 console.error('게시판 글 추가 중 에러 발생 : ' + err.stack);
 
@@ -103,6 +108,8 @@ var write = function (req, res) {
                 writer: userObjectId,
                 title: paramTitle,
                 location: paramLocation,
+                goal_fund: paramGoal,
+                duration: paramDate,
                 link1: paramLink1,
                 link2: paramLink2,
                 link3: paramLink3,
@@ -132,7 +139,7 @@ var write = function (req, res) {
                         console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
 
                         res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-                        res.write('<script>alert("응답 웹문서 생성 중 에러 발생");' +
+                        res.write('<script>alert("모든 사항을 입력해 주세요.");' +
                             'location.href="/addpost"</script>');
                         res.end();
 
@@ -195,11 +202,11 @@ var listpost = function (req, res) {
                     var context = {
                         title: '글 목록',
                         posts: results,
-                        page:  1, //parseInt(paramPage),
+                        page: 1, //parseInt(paramPage),
                         pageCount: 1, //Math.ceil(count / paramPerPage),
                         perPage: 10, //paramPerPage,
                         totalRecords: count,
-                        size: paramPerPage  
+                        size: paramPerPage
                     };
                     // var cp = context.posts;
                     // console.log("cp: " + cp);
@@ -272,10 +279,9 @@ var showpost = function (req, res) {
                 console.error('게시판 글 조회 중 에러 발생 : ' + err.stack);
 
                 res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-                res.write('<h2>게시판 글 조회 중 에러 발생</h2>');
-                res.write('<p>' + err.stack + '</p>');
+                res.write('<script>alert("게시판 글 조회 중 에러 발생" + err.stack);' +
+                    'location.href="/listpost"</script>');
                 res.end();
-
                 return;
             }
 
@@ -286,36 +292,46 @@ var showpost = function (req, res) {
 
                 // 뷰 템플레이트를 이용하여 렌더링한 후 전송
                 var context = {
-                    title: '글 조회 ',
                     posts: results,
-                    Entities: Entities
+                    Entities: Entities,
                 };
+
+                if (!req.user) {
+                    console.log('post: 사용자 인증 안된 상태임.');
+                    context.login_success = false;
+                } else {
+                    console.log('post: 사용자 인증된 상태임.');
+                    console.log('회원정보 로드.');
+                    console.dir(req.user);
+                    context.login_success = true;
+                    context.user = req.user;
+                }
 
                 req.app.render('showpost', context, function (err, html) {
                     if (err) {
                         console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
 
                         res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-                        res.write('<h2>응답 웹문서 생성 중 에러 발생</h2>');
-                        res.write('<p>' + err.stack + '</p>');
+                        res.write('<script>alert("응답 웹문서 생성 중 에러 발생" + err.stack);' +
+                            'location.href="/listpost"</script>');
                         res.end();
-
                         return;
                     }
 
-                    console.log('응답 웹문서 : ' + html);
                     res.end(html);
                 });
 
             } else {
                 res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-                res.write('<h2>글 조회  실패</h2>');
+                res.write('<script>alert("글 조회 실패" + err.stack);' +
+                    'location.href="/listpost"</script>');
                 res.end();
             }
         });
     } else {
         res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-        res.write('<h2>데이터베이스 연결 실패</h2>');
+        res.write('<script>alert("데이터베이스 연결 실패" + err.stack);' +
+            'location.href="/listpost"</script>');
         res.end();
     }
 

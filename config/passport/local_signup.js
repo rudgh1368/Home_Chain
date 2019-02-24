@@ -12,9 +12,12 @@ module.exports = new LocalStrategy({
     var paramName = req.body.name || req.query.name;
     var paramTel = req.body.tel || req.query.tel;
     var paramAddress = req.body.address || req.query.address;
+    var paramWallet_pass = req.body.wallet_password || req.query.wallet_password;
+    var paramAE = req.body.accountEncryption || req.query.accountEncryption;
 
     console.log('passport의 local-signup 호출됨 : ' + id + ', ' + password + ', '
-        + paramWallet + ', ' + paramName + ', ' + paramTel + ', ' + paramAddress);
+        + paramWallet + ', ' + paramName + ', ' + paramTel + ', ' + paramAddress
+        + ', ' + paramWallet_pass  + ', ' + paramAE);
 
     // findOne 메소드가 blocking 되지 않도록 하고 싶은 경우, async 방식으로 변경
     process.nextTick(function () {
@@ -32,8 +35,14 @@ module.exports = new LocalStrategy({
             } else {
                 // 모델 인스턴스 객체 만들어 저장
                 var user = new database.UserModel({
-                    'id': id, 'password': password, 'wallet_address': paramWallet, 'name': paramName
-                    , 'tel': paramTel, 'address': paramAddress
+                    'id': id,
+                    'password': password,
+                    'wallet_address': paramWallet,
+                    'name': paramName,
+                    'tel': paramTel,
+                    'address': paramAddress,
+                    'wallet_password': paramWallet_pass,
+                    'accountEncryption': paramAE
                 });
                 user.save(function (err) {
                     if (err) {
