@@ -118,8 +118,8 @@ userSchema.createSchema = function (mongoose) {
         findById: function (id, callback) {
             return this.find({id: id}, callback);
         },
-        adding_post: function (id, title, callback) {
-            this.update({id: id}, {$push: {posts: {title: title, role: 1}}}, function (e) {
+        adding_post: function (id, title, smart_add, callback) {
+            this.update({id: id}, {$push: {posts: {title: title, role: 1, smart_addr: smart_add}}}, function (e) {
                 console.log("posts 업데이트 됨");
             });
             return this.find({id: id}, callback);

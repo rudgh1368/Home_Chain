@@ -24,9 +24,13 @@ var useToken = function (req, res) {
 var use = function (req, res) {
     console.log("useToken/use 접근");
 
+    var encryptionWallet = req.user.accountEncryption;
+    var walletPassword = req.user.wallet_password;
+
     var toAddress = req.body.toAddress;
     var tokenAmount = req.body.tokenAmount;
     var content = req.body.content;
+    var contractAddress = req.body.smartContractAddress;
 
     console.log("to Address : ", toAddress);
     console.log("tokenAmount : ", tokenAmount);
@@ -36,15 +40,12 @@ var use = function (req, res) {
     // smartcontract 가져오기
 
     //accountEncryption, password, contractAddress, toAddress, amount, content, callback
-    connection.useToken("accountEncryption", "password", contractAddress, toAddress, tokenAmount, content, function (result) {
+    connection.useToken(encryptionWallet, walletPassword, contractAddress, toAddress, tokenAmount, content, function (result) {
        if(result) {
            res.render('useToken.ejs', {output : "success"});
        }
     });
-
-
-
-}
+};
 
 module.exports.useToken = useToken;
 module.exports.use = use;

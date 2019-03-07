@@ -23,8 +23,11 @@ var registerConstructor = function (req, res) {
 
 var register = function (req, res) {
     console.log("registerConstructor/register 접근");
+    var encryptionWallet = req.user.accountEncryption;
+    var walletPassword = req.user.wallet_password;
 
     var buildingConstructor = req.body.buildingConstructor;
+    var contractAddress = req.body.smartContractAddress;
 
     console.log("buildingConstructor : ", buildingConstructor);
 
@@ -32,9 +35,11 @@ var register = function (req, res) {
     // smartcontract 가져오기
 
     //accountEncryption, password, contractAddress, buildingConstructor, callback
-    connection.registerBuildingCostructor("accountEncryption", "password", 'contractAddress', buildingConstructor, function (result) {
+    connection.registerBuildingCostructor(encryptionWallet, walletPassword, contractAddress, buildingConstructor, function (result) {
         if(result) {
             res.render('registerConstructor.ejs', {output : "success"});
+        }else{
+            // error
         }
     });
 }

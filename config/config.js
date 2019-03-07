@@ -23,7 +23,9 @@ module.exports = {
         {file:'./registerToken', path:'/registerToken/register', method:'register', type:'post'},
         {file:'./useToken', path:'/useToken', method:'useToken', type:'get'},
         {file:'./useToken', path:'/useToken/use', method:'use', type:'post'},
-        {file:'./registerCostructor', path:'/registerCostructor', method:'registerCostructor', type:'get'},
-        {file:'./registerCostructor', path:'/registerCostructor/register', method:'register', type:'post'}
+        {file:'./registerConstructor', path:'/registerConstructor', method:'registerConstructor', type:'get'},
+        {file:'./registerConstructor', path:'/registerConstructor/register', method:'register', type:'post'},
+
+        {file:'./test', path:'/test', method : 'test', type : 'get'}
     ]
 }

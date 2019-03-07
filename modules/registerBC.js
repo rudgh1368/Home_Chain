@@ -3,7 +3,7 @@ var connection = require('../connection/connect');
 
 module.exports ={
 
-    readEncryptionFile : function (fileName, path, callback) {
+    readEncryptionFile : function (accountEncryption, password, fileName, path, callback) {
         var encryptionFile = fs.readFileSync(path, 'utf8');
         console.log("encryptionFile : ", encryptionFile);
 
@@ -19,7 +19,7 @@ module.exports ={
         var investmentForm = name[3];
 
         // accountEncryption, password, contractAddress, toAddress,  messageHash, v, r, s, amount, position, callback
-        connection.investBuilding("accountEncryption", "password", contractAddress, toAddress, messageHash, v, r, s, investmentAmount, investmentForm, function (result) {
+        connection.investBuilding(accountEncryption, password, contractAddress, toAddress, messageHash, v, r, s, investmentAmount, investmentForm, function (result) {
             if(result){
                 console.log("등록완료");
                 callback(true);

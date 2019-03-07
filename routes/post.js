@@ -141,7 +141,7 @@ var write = function (req, res) {
                     // 데이터베이스 객체가 초기화 된 경우
                     if (database.db) {
                         // 1. 아이디를 이용해 사용자 검색
-                        database.UserModel.adding_post(paramWriter, paramTitle, function (err, results) {
+                        database.UserModel.adding_post(paramWriter, paramTitle, contractAddress, function (err, results) {
                             if (err) {
                                 console.error('게시판 글 추가 중 에러 발생 : ' + err.stack);
 
@@ -180,7 +180,8 @@ var write = function (req, res) {
                                 link3: paramLink3,
                                 link4: paramLink4,
                                 link5: paramLink5,
-                                fileName: paramFile
+                                fileName: paramFile,
+
                             });
                             // var user = new database.UserModel(results);
                             // user 스키마에 작성 글 정보 추가, 글 쓰는건 시행사기 때문에 1번이 됨
