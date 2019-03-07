@@ -15,6 +15,15 @@ module.exports = {
         //===== mypage =====//
         {file:'./mypage', path:'/mypage', method:'mypage', type:'get'},
         //===== transaction History =====//
-        {file:'./transactionHistory', path:'/transactionHistory/:id', method:'transactionHistory', type:'get'}
+        {file:'./transactionHistory', path:'/transactionHistory/:id', method:'transactionHistory', type:'get'},
+
+        {file:'./createToken', path:'/createToken', method:'createToken', type:'get'},
+        {file:'./createToken', path:'/createToken/create', method:'create', type:'post'},
+        {file:'./registerToken', path:'/registerToken', method:'registerToken', type:'get'},
+        {file:'./registerToken', path:'/registerToken/register', method:'register', type:'post'},
+        {file:'./useToken', path:'/useToken', method:'useToken', type:'get'},
+        {file:'./useToken', path:'/useToken/use', method:'use', type:'post'},
+        {file:'./registerCostructor', path:'/registerCostructor', method:'registerCostructor', type:'get'},
+        {file:'./registerCostructor', path:'/registerCostructor/register', method:'register', type:'post'}
     ]
 }

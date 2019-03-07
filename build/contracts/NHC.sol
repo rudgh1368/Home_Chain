@@ -10,11 +10,9 @@ contract HNC is ERC20, ERC20Detailed, Ownable, crowdsaleHNC, bankCheck{
 
     // construction information
     struct property{
-        string land_information;
         string history;
         string permission;
         string profit_analysis;
-        string demo;
         string con_guide;
         string info;
     }
@@ -55,38 +53,30 @@ contract HNC is ERC20, ERC20Detailed, Ownable, crowdsaleHNC, bankCheck{
     }
 
     function registerBuilding(
-        string memory _land_information,
         string memory _history,
         string memory _permission,
         string memory _profit_analysis,
-        string memory _demo,
         string memory _con_guide,
         string memory _info
     ) public onlyOwner  {
-        prop.land_information = _land_information;
         prop.history =_history;
         prop.permission = _permission;
         prop.profit_analysis = _profit_analysis;
-        prop.demo = _demo;
         prop.con_guide = _con_guide;
         prop.info = _info;
     }
 
     function checkBuildingInformation() public view returns(
-        string memory _land_information,
         string memory _history,
         string memory _permission,
         string memory _profit_analysis,
-        string memory _demo,
         string memory _con_guide,
         string memory _info
     ){
         return(
-        prop.land_information,
         prop.history,
         prop.permission,
         prop.profit_analysis,
-        prop.demo,
         prop.con_guide,
         prop.info
         );
@@ -98,13 +88,13 @@ contract HNC is ERC20, ERC20Detailed, Ownable, crowdsaleHNC, bankCheck{
         invest(_amount, _position);
     }
 
-    function registerBuildingCostructor(bytes32 messageHash,  uint8 v, bytes32 r, bytes32 s, uint8 _position) public{
-        require(checkBankkey(bankAddress, messageHash, v, r, s)); // bank check
+    function registerBuildingCostructor(address to) public{
+        require(msg.sender == owner());
 
-        registerCostructor(_position);
+        registerCostructor(to);
     }
 
-    function useToken(address _to, uint256 _amount, string memory _content) checkCrowdSaleClosed() RegistrationCheck() public{
+    function useToken(address _to, uint256 _amount, string memory _content) checkSuccessCrowdSaleClosed() RegistrationCheck() public{
         require((_to == bankAddress) && (_to == getBuildingCostructor()));
 
         transfer(_to, _amount);
@@ -118,11 +108,11 @@ contract HNC is ERC20, ERC20Detailed, Ownable, crowdsaleHNC, bankCheck{
         statement.push(temp);
     }
 
-    function checkUseTokenAmount() public view RegistrationCheck() returns(uint256 length) {
+    function checkUseTokenAmount() public view checkSuccessCrowdSaleClosed() RegistrationCheck() returns(uint256 length) {
         return statement.length;
     }
 
-    function checkUseToken(uint256 serial) public view RegistrationCheck() returns(address _from, address _to, uint256 _amount, string memory _content){
+    function checkUseToken(uint256 serial) public view checkSuccessCrowdSaleClosed() RegistrationCheck() returns(address _from, address _to, uint256 _amount, string memory _content){
         return (statement[serial].from, statement[serial].to, statement[serial].amout, statement[serial].content);
     }
 

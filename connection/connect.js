@@ -145,12 +145,161 @@ module.exports = {
                 callback(result)
             }
         })
+    },
+
+    signToken : function (message, callback) {
+        console.log('web3, signToken 접근');
+
+        var signToken = web3.eth.accounts.sign(message, '0xae950f323a3155496625b2936f84750513488cd85e0ecc1b887dcd2f35999e84');
+        console.log('signToken : ', signToken);
+
+        callback(signToken);
+    },
+
+    investBuilding : function (accountEncryption, password, contractAddress, toAddress,  messageHash, v, r, s, amount, position, callback) {
+        console.log('web3, investBuilding 접근');
+
+        var accountDecryption = web3.eth.accounts.decrypt(accountEncryption, password);
+
+        //address와 toAddress가 같은지 체크
+        var address = accountDecryption.address;
+        if(address!=toAddress){
+            callback(false);
+        }else{
+            var privateKey = accountDecryption.privateKey;
+            HomeChain.setProvider(web3.currentProvider);
+            HomeChain.options.address = contractAddress;
+
+            var transfer = HomeChain.methods.investBuilding(messageHash, v, r, s, amount, position);
+            var encodedABI = transfer.encodeABI();
+
+            var tx = {
+                from : address,
+                to : contractAddress,
+                gas : 6721975,
+                data : encodedABI
+            };
+
+            web3.eth.accounts.signTransaction(tx, privateKey).then(signed => {
+                var tran = web3.eth.sendSignedTransaction(signed.rawTransaction);
+
+                tran.catch(function (error) {
+                    console.log("delpoy error");
+                    console.log(error);
+                    callback(false);
+                });
+
+                tran.on('confirmation', (confirmationNumber, receipt) => {
+                    console.log('confirmation: ' + confirmationNumber);
+                });
+
+                tran.on('transactionHash', hash => {
+                    console.log('hash');
+                    console.log(hash);
+                });
+
+                tran.on('receipt', receipt => {
+                    console.log('reciept');
+                    console.log(receipt);
+                    callback(true);
+                });
+            });
+        }
+    },
+
+    useToken : function (accountEncryption, password, contractAddress, toAddress, amount, content, callback) {
+        console.log('web3, useToken 접근');
+
+        var accountDecryption = web3.eth.accounts.decrypt(accountEncryption, password);
+        var address = accountDecryption.address;
+        var privateKey = accountDecryption.privateKey;
+        HomeChain.setProvider(web3.currentProvider);
+        HomeChain.options.address = contractAddress;
+
+        var transfer = HomeChain.methods.useToken(toAddress, amount, content);
+        var encodedABI = transfer.encodeABI();
+
+        var tx = {
+            from : address,
+            to : contractAddress,
+            gas : 6721975,
+            data : encodedABI
+        };
+
+        web3.eth.accounts.signTransaction(tx, privateKey).then(signed => {
+            var tran = web3.eth.sendSignedTransaction(signed.rawTransaction);
+
+            tran.catch(function (error) {
+                console.log("delpoy error");
+                console.log(error);
+                callback(false);
+            });
+
+            tran.on('confirmation', (confirmationNumber, receipt) => {
+                console.log('confirmation: ' + confirmationNumber);
+            });
+
+            tran.on('transactionHash', hash => {
+                console.log('hash');
+                console.log(hash);
+            });
+
+            tran.on('receipt', receipt => {
+                console.log('reciept');
+                console.log(receipt);
+                callback(true);
+            });
+        });
+    },
+
+    registerBuildingCostructor : function (accountEncryption, password, contractAddress, buildingConstructor, callback) {
+        console.log('web3, registerBuildingCostructor 접근');
+
+        var accountDecryption = web3.eth.accounts.decrypt(accountEncryption, password);
+        var address = accountDecryption.address;
+        var privateKey = accountDecryption.privateKey;
+        HomeChain.setProvider(web3.currentProvider);
+        HomeChain.options.address = contractAddress;
+
+        var transfer = HomeChain.methods.registerBuildingCostructor(buildingConstructor);
+        var encodedABI = transfer.encodeABI();
+
+        var tx = {
+            from : address,
+            to : contractAddress,
+            gas : 6721975,
+            data : encodedABI
+        };
+
+        web3.eth.accounts.signTransaction(tx, privateKey).then(signed => {
+            var tran = web3.eth.sendSignedTransaction(signed.rawTransaction);
+
+            tran.catch(function (error) {
+                console.log("delpoy error");
+                console.log(error);
+                callback(false);
+            });
+
+            tran.on('confirmation', (confirmationNumber, receipt) => {
+                console.log('confirmation: ' + confirmationNumber);
+            });
+
+            tran.on('transactionHash', hash => {
+                console.log('hash');
+                console.log(hash);
+            });
+
+            tran.on('receipt', receipt => {
+                console.log('reciept');
+                console.log(receipt);
+                callback(true);
+            });
+        });
     }
-}
+};
 function sendEther(address){
     web3.eth.sendTransaction({from: '0x5b7C0779F2241bdf429803F0aB63F6948B5aD095', to:address, value: 10000000000000000, gasLimit: 6721975, gasPrice: 0})
 }
-
 
 //ccb192cbf9cf07287e90ac3cb0dca21b5a1d806b
 // 실행하시오!!
@@ -181,10 +330,3 @@ function sendEther(address){
 //         console.log('APP : ', result)
 //     }
 // })
-
-
-var test = "asdasdasdsd/asdtre122/0/100";
-
-
-var BP = web3.eth.accounts.sign(test, '0xae950f323a3155496625b2936f84750513488cd85e0ecc1b887dcd2f35999e84');
-console.log(BP)

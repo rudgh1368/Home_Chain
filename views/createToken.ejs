@@ -8,7 +8,7 @@
     <!-- The above 4 meta tags *Must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title -->
-    <title>HomeChain - Education &amp; Courses Template | Home</title>
+    <title>Clever - Education &amp; Courses Template | Home</title>
 
     <!-- Favicon -->
     <link rel="icon" href="../public/img/core-img/favicon.ico">
@@ -73,7 +73,7 @@
                         <!-- Register / Login -->
                         <div class="register-login-area">
                             <a href="/signup" class="btn">Register</a>
-                            <a href="/login" class="btn active">Login</a>
+                            <a href="/login" class="btn">Login</a>
                         </div>
 
                     </div>
@@ -88,22 +88,37 @@
     <div class="col-lg-3"></div>
     <div class="col-lg-6">
         <div class="jumbotron" style="margin-top: 15%;padding-top: 20px;">
-            <h3 style="text-align:center;">로그인 화면</h3>
+            <h4 style="text-align:center;margin-bottom: 10%">create signed Token</h4>
             <!-- 인증 처리 후 메시지가 있으면 메시지 표시 -->
-            <% if (message.length > 0) { %>
-                <div class="alert alert-danger"><%= message %></div>
-            <% } %>
+            <%
+                if(output){
+                    if(output === "success"){
+                        var message = "success create Token";
+             %>         <div class="alert alert-success"><%= message %></div>
+            <%     }else{
+                         var message = "fail create Token, so Please turn it over again.\n";
+            %>           <div class="alert alert-danger"><%= message %></div>
+            <%     }}
+            %>
 
-            <form method="post" action="/login">
+            <form method="post" action="/createToken/create">
                 <div class="form-group">
-                    <label>아이디</label>
-                    <input type="text" class="form-control" placeholder="ID" name="id" maxlength="20">
+                    <label>smartContract Address</label>
+                    <input type="text" class="form-control" placeholder="Address" name="smartContractAddress" maxlength="20" required>
                 </div>
                 <div class="form-group">
-                    <label>비밀번호</label>
-                    <input type="password" class="form-control" placeholder="Password" name="password" maxlength="20">
+                    <label>to</label>
+                    <input type="text" class="form-control" placeholder="address" name="to" maxlength="20" required>
                 </div>
-                <input type="submit" class="btn btn-primary form-control" value="로그인">
+                <div class="form-group">
+                    <label>investment amount</label>
+                    <input type="text" class="form-control" placeholder="investment amount" name="investmentAmount" maxlength="20" required>
+                </div>
+                <div class="form-group">
+                    <label>investment form</label>&nbsp;&nbsp;&nbsp;<lable id="comment" style="font-size: x-small;color: #0c5460;">1:투지자, 2:수분양자</lable>
+                    <input type="text" class="form-control" placeholder="1" name="investmentForm" maxlength="20" required>
+                </div>
+                <input type="submit" class="btn btn-info form-control" value="create" style="margin-top: 5%">
             </form>
         </div>
     </div>
@@ -115,5 +130,6 @@
 <script src="../public/js/bootstrap/popper.min.js"></script>
 <script src="../public/js/plugins/plugins.js"></script>
 <script src="../public/js/active.js"></script>
+
 </body>
 </html>

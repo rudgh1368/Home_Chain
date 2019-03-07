@@ -71,7 +71,7 @@ function initHandlers(jayson, app, api_path) {
         jaysonServer.call(req.body, function(error, success) {
             var response = error || success;
 
-             // 결과 데이터를 JSON으로 만들어 응답
+            // 결과 데이터를 JSON으로 만들어 응답
             utils.JSON.stringify(response, options, function(err, body) {
                 if(err) return err;
 

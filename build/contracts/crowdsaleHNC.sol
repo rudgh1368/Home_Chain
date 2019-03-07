@@ -26,14 +26,16 @@ contract crowdsaleHNC is ERC20{
 
     bool fundingGoalReached = false;
     bool crowdsaleClosed = false;
+    bool registeredBuildingCostructor = false;
 
     event GoalReached(address recipient, uint totalAmountRaised);
     event FundTransfer(address backer, uint amount, bool isContribution);
 
     // time check ( exceed time)
-    modifier afterDeadline() { if (now >= deadline) _; }
+    modifier afterDeadline() { if (now > deadline) _; }
+    modifier beforeDeadline() { if (now <= deadline) _; }
 
-    modifier checkCrowdSaleClosed() {if (crowdsaleClosed) _; }
+    modifier checkSuccessCrowdSaleClosed() {if (crowdsaleClosed && fundingGoalReached) _; }
 
     // register check
     modifier RegistrationCheck() {if(interestedPersons[msg.sender].registerState) _; }
@@ -59,8 +61,16 @@ contract crowdsaleHNC is ERC20{
     /**
      * Invest function
      */
-    function invest(uint256 _amount, uint8 _postion) internal {
+    function invest(uint256 _amount, uint8 _postion) internal beforeDeadline {
         require(!crowdsaleClosed);
+        require(!fundingGoalReached);
+
+        uint256 temp = amountRaised;
+        temp += _amount;
+
+        // 투자금이 fundingGoal를 초과하지 않는다.
+
+        require(temp <= fundingGoal);
 
         interestedPersons[msg.sender].realMoney += _amount;   // invested money
         interestedPersons[msg.sender].position = _postion;
@@ -69,16 +79,19 @@ contract crowdsaleHNC is ERC20{
         interestedPersonsNumber ++;
 
         amountRaised += _amount;
+        checkFundingGoalReached();
+
         // ERC20.transfer(msg.sender, amount / price);         // a token payment for one's investment
         emit FundTransfer(msg.sender, _amount, true);
+
     }
 
-    function registerCostructor(uint8 _position) internal{
-        if(_position==2){
-            buildingCostructor = msg.sender;
-        }else{
-            revert();
-        }
+    function registerCostructor(address to) internal checkSuccessCrowdSaleClosed {
+        require(!registeredBuildingCostructor);
+
+        buildingCostructor = to;
+
+        registeredBuildingCostructor = true;
     }
 
     function ckeckState() public view RegistrationCheck() returns(
@@ -111,8 +124,16 @@ contract crowdsaleHNC is ERC20{
      *
      * End of investment when you achieve your goal
      */
+    function checkFundingGoalReached() internal beforeDeadline {
+        if (amountRaised == fundingGoal){
+            fundingGoalReached = true;
+            crowdsaleClosed = true;
+            emit GoalReached(beneficiary, amountRaised);
+        }
+    }
+
     function checkGoalReached() public afterDeadline {
-        if (amountRaised >= fundingGoal){
+        if (amountRaised == fundingGoal){
             fundingGoalReached = true;
             emit GoalReached(beneficiary, amountRaised);
         }
@@ -128,20 +149,20 @@ contract crowdsaleHNC is ERC20{
      * the amount they contributed.
      */
     // ((( further development )))
-    function safeWithdrawal() public afterDeadline {
+    // function safeWithdrawal() public  {
 
-        if (!fundingGoalReached) {
-            // a bank payment
-        }
+    //     if (!fundingGoalReached) {
+    //         // a bank payment
+    //     }
 
-        if (fundingGoalReached && beneficiary == msg.sender) {
-            if (msg.sender.send(amountRaised)) {
-                emit FundTransfer(beneficiary, amountRaised, false);
-            } else {
-                //If we fail to send the funds to beneficiary, unlock funders balance
-                fundingGoalReached = false;
-            }
-        }
-    }
+    //     if (fundingGoalReached && beneficiary == msg.sender) {
+    //         if (msg.sender.send(amountRaised)) {
+    //           emit FundTransfer(beneficiary, amountRaised, false);
+    //         } else {
+    //             //If we fail to send the funds to beneficiary, unlock funders balance
+    //             fundingGoalReached = false;
+    //         }
+    //     }
+    // }
 }
 

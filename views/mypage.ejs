@@ -8,7 +8,7 @@
     <!-- The above 4 meta tags *Must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title -->
-    <title>Clever - Education &amp; Courses Template | Home</title>
+    <title>HomeChain - Education &amp; Courses Template | Home</title>
 
     <!-- Favicon -->
     <link rel="icon" href="../public/img/core-img/favicon.ico">
@@ -230,14 +230,6 @@
                     <div class="col-lg-2 col-md-2"></div>
                 <% } %>
             </div>
-
-            <!--<div class="row">-->
-            <!--<div class="col-12">-->
-            <!--<div class="load-more text-center wow fadeInUp" data-wow-delay="1000ms">-->
-            <!--<a href="#" class="btn clever-btn btn-2">Load More</a>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
         </div>
     </section>
     <section id="section2" class="popular-courses-area section-padding-100" style="padding-top: 0px; display :none;">
@@ -579,7 +571,16 @@
 <script src="../public/js/plugins/plugins.js"></script>
 <!-- Active js -->
 <script src="../public/js/active.js"></script>
+<script src="../public/js/jquery/jquery-jsonrpc.js"></script>
 <script>
+    $(document).ready(function () {
+
+        $.jsonRPC.setup({
+            endPoint: 'http://localhost:3000/api',
+            namespace: ''
+        });
+    })
+
     function visible(num) {
         var section = "section";
         var list = ["1", "2", "3", "4"];
@@ -593,6 +594,31 @@
         id = section + num;
         document.getElementById(id).style.display = "block";
         document.getElementById(num).style.color = "#3762f0";
+        getData(num);
+    }
+
+    function getData(num) {
+        var method;
+        if (num==2){
+            method = 'investorMypage';
+        }else if (num==3){
+            method = 'constructorMypage';
+        }
+
+        var message = {userID: user.id};
+        $.jsonRPC.request(method, {
+            id: 1001,
+            params: [message],
+            success: function (data) {
+                console.log('정상 응답을 받았습니다.');
+                console.log(data.result);
+
+            },
+            error: function (data) {
+                console.log('에러 응답을 받았습니다.');
+                console.dir(data); //
+            }
+        });
     }
 </script>
 </body>
