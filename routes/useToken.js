@@ -3,7 +3,22 @@ var connection = require('../connection/connect');
 var useToken = function (req, res) {
     console.log("useToken 접근");
 
-    res.render('useToken.ejs', {output : undefined});
+    if(!req.user){
+        console.log('사용자 인증 안된 상태임.');
+        res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+        res.write('<script>alert("먼저 로그인해주세요.");' +
+            'location.href="/login"</script>');
+        res.end();
+    } else{
+        var context = {}
+        console.log('사용자 인증된 상태임.');
+        console.log('회원정보 로드.');
+        console.dir(req.user);
+        context.login_success = true;
+        context.user = req.user;
+        context.output = undefined;
+        res.render('useToken.ejs', context);
+    }
 }
 
 var use = function (req, res) {
