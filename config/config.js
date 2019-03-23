@@ -12,6 +12,7 @@ module.exports = {
         {file:'./post', path:'/addpost/write', method:'write', type:'post'},
         {file:'./post', path:'/showpost/:id', method:'showpost', type:'get'},
         {file:'./post', path:'/listpost', method:'listpost', type:'get'},
+        {file:'./post', path:'/showpost/download/:id', method:'download', type:'get'},
         //===== mypage =====//
         {file:'./mypage', path:'/mypage', method:'mypage', type:'get'},
         //===== transaction History =====//
