@@ -130,6 +130,9 @@ postSchema.createSchema = function (mongoose) {
             }
             console.log(titles);
             return this.find({$or: titles}, callback);
+        },
+        findPDF: function(id, callback){
+            return this.find({_id: id}, callback);
         }
     }
 

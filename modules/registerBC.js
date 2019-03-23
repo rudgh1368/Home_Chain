@@ -42,7 +42,9 @@ module.exports = {
                                     if (err) callback(false);
                                     if (result) callback(true);
                                 })
-                            }
+                            } else callback(false);
+                        } else{
+                            callback(false);
                         }
                     })
                 } else {

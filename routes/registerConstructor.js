@@ -10,7 +10,7 @@ var registerConstructor = function (req, res) {
             'location.href="/login"</script>');
         res.end();
     } else{
-        var context = {}
+        var context = {};
         console.log('사용자 인증된 상태임.');
         console.log('회원정보 로드.');
         console.dir(req.user);
@@ -51,8 +51,56 @@ var register = function (req, res) {
         //accountEncryption, password, contractAddress, buildingConstructor, callback
         connection.registerBuildingCostructor(encryptionWallet, walletPassword, contractAddress, buildingConstructor, function (result) {
             if(result) {
-                context.output="success";
-                res.render('registerConstructor.ejs', context);
+                var database = require('../database/database');
+
+                if(database.db){
+                    database.PostModel.findByAddress(contractAddress, function(err, result_title){
+                        if (err) {
+                            console.error('findByAddress 에러 : ' + err.stack);
+
+                            res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                            res.write('<script>alert("post 로드 중 에러 발생" + err.stack);' +
+                                'location.href="/"</script>');
+                            res.end();
+                            return;
+                        }
+                        if (result_title){
+                            if (result_title.length == 1){
+                                var postTitle = result_title[0].title;
+                                var postRole = 3;
+                                database.UserModel.adding_role(buildingConstructor, postTitle, contractAddress, postRole, function (err, result) {
+                                    if (err) {
+                                        console.error('adding_role 에러 : ' + err.stack);
+
+                                        res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                        res.write('<script>alert("user 로드 중 에러 발생" + err.stack);' +
+                                            'location.href="/"</script>');
+                                        res.end();
+                                        return;
+                                    }
+                                    if (result) {
+                                        context.output="success";
+                                        res.render('registerConstructor.ejs', context);
+                                    }
+                                });
+                            } else{
+                                console.error('findByAddress 에러 : ' + err.stack);
+
+                                res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                res.write('<script>alert("post 로드 중 에러 발생" + err.stack);' +
+                                    'location.href="/"</script>');
+                                res.end();
+                                return;
+                            }
+                        }
+                    })
+                } else {
+                    res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                    res.write('<script>alert("데이터베이스 연결 실패" + err.stack);' +
+                        'location.href="/"</script>');
+                    res.end();
+                }
+
             }else{
                 // error
             }

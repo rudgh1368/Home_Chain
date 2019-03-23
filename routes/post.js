@@ -5,6 +5,7 @@ var Entities = require('html-entities').AllHtmlEntities;
 var formidable = require('formidable');
 var fs = require('fs');
 var connection = require('../connection/connect');
+var mime = require('mime');
 
 var addpost = function (req, res) {
     console.log('post 모듈 안에 있는 addpost 호출됨.');
@@ -60,7 +61,7 @@ var write = function (req, res) {
 
     var form = new formidable.IncomingForm();
 
-    var uri = '/home/blockChain/contracts/Home_Chain-realMerged/uploads/';
+    var uri = '/home/km/WebstormProjects/graduate2/uploads/';
 
     try {
         fs.mkdirSync(uri + paramWallet);
@@ -424,6 +425,7 @@ var showpost = function (req, res) {
                     context.state = state;
                     context.buildingConstructor = buildingConstructor;
                     context.master = master;
+                    context.paramId = paramId;
 
                     req.app.render('showpost', context, function (err, html) {
                         if (err) {
@@ -456,7 +458,45 @@ var showpost = function (req, res) {
 
 };
 
+
+var download = function(req, res) {
+    var paramId = req.body.id || req.query.id || req.params.id;
+    var url = "/showpost/" + paramId;
+    var database = req.app.get('database');
+
+    if (database.db){
+        database.PostModel.findPDF(paramId, function(err, result){
+            if (err) {
+                console.error('게시판 글 조회 중 에러 발생 : ' + err.stack);
+
+                res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                res.write('<script>alert("게시판 글 조회 중 에러 발생" + err.stack);' +
+                    'location.href=' + url + '</script>');
+                res.end();
+                return;
+            }
+            if (result){
+                var fileName = result[0].fileName;
+                var path = "/home/km/WebstormProjects/graduate2/uploads/";
+                var file = path + fileName;
+                mimetype = mime.lookup(fileName);
+
+                res.setHeader('Content-dispostion', 'attachment;filename=' + fileName);
+                res.setHeader('Content-type', mimetype);
+                var fileStream = fs.createReadStream(file);
+                fileStream.pipe(res);
+            }
+        });
+    } else {
+        res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+        res.write('<script>alert("데이터베이스 연결 실패" + err.stack);' +
+            'location.href=' + url + '</script>');
+        res.end();
+    }
+}
+
 module.exports.addpost = addpost;
 module.exports.listpost = listpost;
 module.exports.write = write;
 module.exports.showpost = showpost;
+module.exports.download = download;
