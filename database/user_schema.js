@@ -6,7 +6,7 @@ userSchema.createSchema = function (mongoose) {
 
     // 스키마 정의
     var UserSchema = mongoose.Schema({
-        wallet_address: {type: String, required: true, 'default': ''},
+        wallet_address: {type: String, required: true, unique: true, 'default': ''},
         wallet_password: {type: String, required: true, 'default': ''},
         accountEncryption: {type: Object, required: true, 'default': ''},
         id: {type: String, required: true, unique: true, 'default': ''},
@@ -120,9 +120,13 @@ userSchema.createSchema = function (mongoose) {
         },
         adding_post: function (id, title, smart_add, callback) {
             this.update({id: id}, {$push: {posts: {title: title, role: 1, smart_addr: smart_add}}}, function (e) {
-                console.log("posts 업데이트 됨");
             });
             return this.find({id: id}, callback);
+        },
+        adding_role: function (wallet_address, title, smart_add, role, callback) {
+            this.update({wallet_address: wallet_address}, {$push: {posts: {title: title, role: role, smart_addr: smart_add}}}, function (e) {
+            });
+            return this.find({wallet_address: wallet_address}, callback);
         },
         splitPost: function (id, callback) {
             return this.aggregate(
