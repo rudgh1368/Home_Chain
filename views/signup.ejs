@@ -82,9 +82,7 @@
                 <h3 style="text-align:center;">지갑생성</h3>
                 <h6 style="text-align:center;color: #0c5460;">( 아이디를 만들기 전, 지갑을 생성합니다. )</h6><br>
                 <!-- 인증 처리 후 메시지가 있으면 메시지 표시 -->
-                <% if (message.length > 0) { %>
-                    <div class="alert alert-danger"><%= message %></div>
-                <% } %>
+                <div id="alertMessage" style="display: none;" class="alert"></div>
                 <div class="form-group">
                     <label>지갑 비밀번호</label><br>
                     <input type="text" class="form-control" style="width: 79%; display: inline-block" id="addressPassword"
@@ -148,62 +146,7 @@
 <script src="../public/js/bootstrap/popper.min.js"></script>
 <script src="../public/js/plugins/plugins.js"></script>
 <script src="../public/js/active.js"></script>
+<script src="../public/js/signup.js"></script>
 
-<script>
-    var address;
-    var password;
-    var accountEncryption;
-
-    $(document).ready(function () {
-        $.jsonRPC.setup({
-            endPoint: 'http://localhost:3000/api',
-            namespace: ''
-        });
-    });
-
-    function newAccount() {
-        password = $("#addressPassword").val();
-        console.log("password : ", password);
-        var method = 'createAccount';
-        var message = {password : password};
-
-        $.jsonRPC.request(method, {
-            id: 1001,
-            params: [message],
-            success: function(data) {
-                console.log('정상 응답을 받았습니다.');
-                console.log(data.result.accountEncryption);
-
-                address = data.result.address;
-                var privateKey = data.result.privateKey;
-                accountEncryption = data.result.accountEncryption;
-                $('#address').html('address :<br>' + address);
-                $('#pk').html('privateKey :<br>' + privateKey);
-                $('#comment').html('<br> privateKey는 서버에 저장되지 않습니다.&nbsp; local에 꼭 저장하셔야 됩니다.<br><br>');
-
-            },
-            error: function(data) {
-                console.log('에러 응답을 받았습니다.');
-                console.dir(data); //
-
-                $('#alert').addClass('alert alert-dander');
-                $('#alert').html('에러 응답을 받았습니다.' + data.err.message);
-            }
-        });
-    }
-
-    function nextStep() {
-        var temp = $('#nextStep').html();
-
-         var values = JSON.stringify(accountEncryption)
-
-        $('#content').html(temp);
-        $('#address').val(address);
-        $('#accountEncryption').val(values);
-        $('#walletPassword').val(password);
-
-        var a =  $('#accountEncryption').val();
-    }
-</script>
 </body>
 </html>

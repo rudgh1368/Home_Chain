@@ -338,7 +338,6 @@ var showpost = function (req, res) {
 
     console.log('요청 파라미터 : ' + paramId);
 
-
     var database = req.app.get('database');
 
     // 데이터베이스 객체가 초기화된 경우

@@ -295,7 +295,9 @@ module.exports = {
                 callback(true);
             });
         });
-    }
+    },
+
+    // ckeckState 에서 state 추가
 };
 function sendEther(address){
     web3.eth.sendTransaction({from: '0x5b7C0779F2241bdf429803F0aB63F6948B5aD095', to:address, value: 10000000000000000, gasLimit: 6721975, gasPrice: 0})
