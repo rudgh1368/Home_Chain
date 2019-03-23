@@ -873,8 +873,28 @@
                                 <!--<h6>10</h6>-->
                             <!--</li>-->
                             <li>
-                                <h6><i class="fa fa-file" aria-hidden="true"></i> 총 토큰</h6>
-                                <h6><%= posts.goal_fund %>개</h6>
+                                <h6><i class="fa fa-file" aria-hidden="true"></i> 목표 금액</h6>
+                                <h6><%= fundingGoalMoney %>만원</h6>
+                            </li>
+                            <li>
+                                <h6><i class="fa fa-file" aria-hidden="true"></i> 모금액</h6>
+                                <h6><%= amountRaised %>만원</h6>
+                            </li>
+                            <li>
+                                <h6><i class="fa fa-file" aria-hidden="true"></i> 목표까지 </h6>
+                                <h6><%= (fundingGoalMoney - amountRaised) %>만원</h6>
+                            </li>
+                            <li>
+                                <h6><i class="fa fa-file" aria-hidden="true"></i> 현재 투자자 </h6>
+                                <h6><%= interestedPersonsNumber %>명</h6>
+                            </li>
+                            <li>
+                                <h6><i class="fa fa-file" aria-hidden="true"></i> 상태</h6>
+                                <h6><%= state %></h6>
+                            </li>
+                            <li>
+                                <h6><i class="fa fa-file" aria-hidden="true"></i> 시공사</h6>
+                                <h6><%= buildingConstructor %></h6>
                             </li>
                             <!--<li>-->
                                 <!--<h6><i class="fa fa-thumbs-up" aria-hidden="true"></i> Pass Percentage</h6>-->

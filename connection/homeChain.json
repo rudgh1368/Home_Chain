@@ -1,14 +1,5 @@
 [
   {
-    "constant": false,
-    "inputs": [],
-    "name": "checkGoalReached",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "constant": true,
     "inputs": [],
     "name": "name",
@@ -197,6 +188,36 @@
     "type": "function"
   },
   {
+    "constant": true,
+    "inputs": [],
+    "name": "checkInvestState",
+    "outputs": [
+      {
+        "name": "__fundingGoalMoney",
+        "type": "uint256"
+      },
+      {
+        "name": "_amountRaised",
+        "type": "uint256"
+      },
+      {
+        "name": "_interestedPersonsNumber",
+        "type": "uint256"
+      },
+      {
+        "name": "_state",
+        "type": "uint256"
+      },
+      {
+        "name": "_buildingCostructor",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "constant": false,
     "inputs": [
       {
@@ -229,40 +250,6 @@
   {
     "constant": true,
     "inputs": [],
-    "name": "ckeckState",
-    "outputs": [
-      {
-        "name": "__fundingGoalMonry",
-        "type": "uint256"
-      },
-      {
-        "name": "_amountRaised",
-        "type": "uint256"
-      },
-      {
-        "name": "_startTime",
-        "type": "uint256"
-      },
-      {
-        "name": "_deadLine",
-        "type": "uint256"
-      },
-      {
-        "name": "_interestedPersonsNumber",
-        "type": "uint256"
-      },
-      {
-        "name": "_buildingCostructor",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
     "name": "checkUseTokenAmount",
     "outputs": [
       {
@@ -290,40 +277,6 @@
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "messageHash",
-        "type": "bytes32"
-      },
-      {
-        "name": "v",
-        "type": "uint8"
-      },
-      {
-        "name": "r",
-        "type": "bytes32"
-      },
-      {
-        "name": "s",
-        "type": "bytes32"
-      },
-      {
-        "name": "_amount",
-        "type": "uint256"
-      },
-      {
-        "name": "_position",
-        "type": "uint8"
-      }
-    ],
-    "name": "investBuilding",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -486,6 +439,33 @@
     "constant": false,
     "inputs": [
       {
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "name": "value",
+        "type": "uint256"
+      }
+    ],
+    "name": "ownerTransfer",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
         "name": "spender",
         "type": "address"
       },
@@ -555,11 +535,93 @@
     "constant": false,
     "inputs": [
       {
+        "name": "messageHash",
+        "type": "bytes32"
+      },
+      {
+        "name": "v",
+        "type": "uint8"
+      },
+      {
+        "name": "r",
+        "type": "bytes32"
+      },
+      {
+        "name": "s",
+        "type": "bytes32"
+      },
+      {
+        "name": "investor",
+        "type": "address"
+      },
+      {
+        "name": "_amount",
+        "type": "uint256"
+      },
+      {
+        "name": "_position",
+        "type": "uint8"
+      }
+    ],
+    "name": "investBuilding",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
         "name": "newOwner",
         "type": "address"
       }
     ],
     "name": "transferOwnership",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "bankAddress",
+        "type": "address"
+      },
+      {
+        "name": "msgHash",
+        "type": "bytes32"
+      },
+      {
+        "name": "v",
+        "type": "uint8"
+      },
+      {
+        "name": "r",
+        "type": "bytes32"
+      },
+      {
+        "name": "s",
+        "type": "bytes32"
+      }
+    ],
+    "name": "checkBankkey",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "checkFundingGoalFail",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
@@ -590,7 +652,7 @@
   {
     "inputs": [
       {
-        "name": "fundingGoalMonry",
+        "name": "fundingGoalMoney",
         "type": "uint256"
       },
       {
@@ -601,45 +663,6 @@
     "payable": false,
     "stateMutability": "nonpayable",
     "type": "constructor"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "name": "recipient",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "name": "totalAmountRaised",
-        "type": "uint256"
-      }
-    ],
-    "name": "GoalReached",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "name": "backer",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "name": "amount",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "name": "isContribution",
-        "type": "bool"
-      }
-    ],
-    "name": "FundTransfer",
-    "type": "event"
   },
   {
     "anonymous": false,

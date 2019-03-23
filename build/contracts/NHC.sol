@@ -31,21 +31,21 @@ contract HNC is ERC20, ERC20Detailed, Ownable, crowdsaleHNC, bankCheck{
     // Symbol
     string private _name = "Home&Chain";
     string private _symbol = "NHC";
-    uint8 private _decimals = 2;
+    uint8 private _decimals = 0;
 
     // bank address
-    address bankAddress  = 0xec58179D7BD7CBEd4D1a76376A1c961C61548071;
+    address bankAddress  = 0x93c72AccEc541e909059816fcDff3d3c1Ff2d9a9;
 
     uint256 pricePerMoney = 10000; // 현금당 토큰 가격
 
 
     // [ developer ]
-    constructor(uint256 fundingGoalMonry, uint256 duration)
+    constructor(uint256 fundingGoalMoney, uint256 duration)
     ERC20Detailed(_name, _symbol, _decimals)
-    crowdsaleHNC(owner(), fundingGoalMonry, duration, pricePerMoney)
+    crowdsaleHNC(owner(), fundingGoalMoney, duration, pricePerMoney)
     public{
         // token creation
-        _mint(owner(), calculateToken(fundingGoalMonry) /*totalSupply*/ * 10**uint256(_decimals));
+        _mint(owner(), calculateToken(fundingGoalMoney) /*totalSupply*/);
     }
 
     function calculateToken(uint256 __fundingGoalMonry) internal pure returns(uint){
@@ -82,10 +82,10 @@ contract HNC is ERC20, ERC20Detailed, Ownable, crowdsaleHNC, bankCheck{
         );
     }
 
-    function investBuilding(bytes32 messageHash,  uint8 v, bytes32 r, bytes32 s, uint256 _amount, uint8 _position) public {
+    function investBuilding(bytes32 messageHash,  uint8 v, bytes32 r, bytes32 s, address investor, uint256 _amount, uint8 _position) public {
         require(checkBankkey(bankAddress, messageHash, v, r, s)); // bank check
 
-        invest(_amount, _position);
+        invest(investor, _amount, _position);
     }
 
     function registerBuildingCostructor(address to) public{
@@ -117,6 +117,7 @@ contract HNC is ERC20, ERC20Detailed, Ownable, crowdsaleHNC, bankCheck{
     }
 
 }
+
 
 
 

@@ -79,7 +79,7 @@ module.exports = {
         _con_guide,
         _info,
         callback) {
-        console.log('web3, registerItem 접근');
+        console.log('web3, registerBuilding 접근');
 
         var accountDecryption = web3.eth.accounts.decrypt(accountEncryption, password);
         var address = accountDecryption.address;
@@ -101,7 +101,7 @@ module.exports = {
             var tran = web3.eth.sendSignedTransaction(signed.rawTransaction);
 
             tran.catch(function (error) {
-                console.log("delpoy error");
+                console.log("registerBuilding error");
                 console.log(error);
                 callback(false);
             });
@@ -150,7 +150,7 @@ module.exports = {
     signToken : function (message, callback) {
         console.log('web3, signToken 접근');
 
-        var signToken = web3.eth.accounts.sign(message, '0xae950f323a3155496625b2936f84750513488cd85e0ecc1b887dcd2f35999e84');
+        var signToken = web3.eth.accounts.sign(message, '0x395ebaaa75802cde853c43cab78eddf29127d2cfec062b478ce705f466582beb');
         console.log('signToken : ', signToken);
 
         callback(signToken);
@@ -163,14 +163,14 @@ module.exports = {
 
         //address와 toAddress가 같은지 체크
         var address = accountDecryption.address;
-        if(address!=toAddress){
-            callback(false);
-        }else{
+        // if(address!=toAddress){
+        //     callback(false);
+        // }else{
             var privateKey = accountDecryption.privateKey;
             HomeChain.setProvider(web3.currentProvider);
             HomeChain.options.address = contractAddress;
 
-            var transfer = HomeChain.methods.investBuilding(messageHash, v, r, s, amount, position);
+            var transfer = HomeChain.methods.investBuilding(messageHash, v, r, s, toAddress, amount, position);
             var encodedABI = transfer.encodeABI();
 
             var tx = {
@@ -184,7 +184,7 @@ module.exports = {
                 var tran = web3.eth.sendSignedTransaction(signed.rawTransaction);
 
                 tran.catch(function (error) {
-                    console.log("delpoy error");
+                    console.log("investBuilding error");
                     console.log(error);
                     callback(false);
                 });
@@ -204,8 +204,7 @@ module.exports = {
                     callback(true);
                 });
             });
-        }
-    },
+        },
 
     useToken : function (accountEncryption, password, contractAddress, toAddress, amount, content, callback) {
         console.log('web3, useToken 접근');
@@ -230,7 +229,7 @@ module.exports = {
             var tran = web3.eth.sendSignedTransaction(signed.rawTransaction);
 
             tran.catch(function (error) {
-                console.log("delpoy error");
+                console.log("useToken error");
                 console.log(error);
                 callback(false);
             });
@@ -275,7 +274,7 @@ module.exports = {
             var tran = web3.eth.sendSignedTransaction(signed.rawTransaction);
 
             tran.catch(function (error) {
-                console.log("delpoy error");
+                console.log("registerBuildingCostructor error");
                 console.log(error);
                 callback(false);
             });
@@ -297,7 +296,28 @@ module.exports = {
         });
     },
 
-    // ckeckState 에서 state 추가
+    checkInvestState : function (accountEncryption, password, contractAddress, callback) {
+        console.log('web3, checkInvestState 접근');
+
+        var accountDecryption = web3.eth.accounts.decrypt(accountEncryption, password);
+        var address = accountDecryption.address;
+
+        HomeChain.setProvider(web3.currentProvider);
+        HomeChain.options.address = contractAddress;
+
+        HomeChain.methods.checkInvestState().call({
+            from : address
+        }, function (err, result) {
+            if(err) {
+                console.log(err);
+                callback(err)
+            }
+            else {
+                console.log('checkInvestState : ', result)
+                callback(result)
+            }
+        })
+    }
 };
 function sendEther(address){
     web3.eth.sendTransaction({from: '0x5b7C0779F2241bdf429803F0aB63F6948B5aD095', to:address, value: 10000000000000000, gasLimit: 6721975, gasPrice: 0})
@@ -332,3 +352,10 @@ function sendEther(address){
 //         console.log('APP : ', result)
 //     }
 // })
+// var newAccount = web3.eth.accounts.create();
+// var address = newAccount.address;
+// var privateKey = newAccount.privateKey;
+// console.log("address : ", address);
+// console.log("privateKey : ", privateKey);
+// sendEther(address);
+

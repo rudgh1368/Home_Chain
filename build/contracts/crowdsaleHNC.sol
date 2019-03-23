@@ -9,6 +9,7 @@ contract crowdsaleHNC is ERC20{
     uint public startTime;
     uint public deadline;
     uint public price;
+    uint state;                                     // 0 : 모금중, 1 : fundingGoalReached, 2: not fundingGoalReached, 3 : complete, 4 : fail
 
     // 투자자, 수분양자, 시공사 정보
     // 시공사 : 0 투자자 : 1, 수분양자 : 2 시공사 : 3
@@ -28,8 +29,8 @@ contract crowdsaleHNC is ERC20{
     bool crowdsaleClosed = false;
     bool registeredBuildingCostructor = false;
 
-    event GoalReached(address recipient, uint totalAmountRaised);
-    event FundTransfer(address backer, uint amount, bool isContribution);
+    // event GoalReached(address recipient, uint totalAmountRaised);
+    // event FundTransfer(address backer, uint amount, bool isContribution);
 
     // time check ( exceed time)
     modifier afterDeadline() { if (now > deadline) _; }
@@ -54,14 +55,14 @@ contract crowdsaleHNC is ERC20{
         startTime = now;
         deadline = now + durationInDays * 1 days;
         price = costOfEachToken;
-        interestedPersons[msg.sender].position = 0;
-        interestedPersons[msg.sender].registerState = true;
+        // interestedPersons[msg.sender].position = 0;
+        // interestedPersons[msg.sender].registerState = true;
     }
 
     /**
      * Invest function
      */
-    function invest(uint256 _amount, uint8 _postion) internal beforeDeadline {
+    function invest(address investor, uint256 _amount, uint8 _postion) internal beforeDeadline {
         require(!crowdsaleClosed);
         require(!fundingGoalReached);
 
@@ -72,9 +73,9 @@ contract crowdsaleHNC is ERC20{
 
         require(temp <= fundingGoal);
 
-        interestedPersons[msg.sender].realMoney += _amount;   // invested money
-        interestedPersons[msg.sender].position = _postion;
-        interestedPersons[msg.sender].registerState = true;
+        interestedPersons[investor].realMoney += _amount;   // invested money
+        interestedPersons[investor].position = _postion;
+        interestedPersons[investor].registerState = true;
 
         interestedPersonsNumber ++;
 
@@ -82,7 +83,7 @@ contract crowdsaleHNC is ERC20{
         checkFundingGoalReached();
 
         // ERC20.transfer(msg.sender, amount / price);         // a token payment for one's investment
-        emit FundTransfer(msg.sender, _amount, true);
+        //  emit FundTransfer(msg.sender, _amount, true);
 
     }
 
@@ -94,15 +95,14 @@ contract crowdsaleHNC is ERC20{
         registeredBuildingCostructor = true;
     }
 
-    function ckeckState() public view RegistrationCheck() returns(
-        uint256 __fundingGoalMonry,
+    function checkInvestState() public view returns(
+        uint256 __fundingGoalMoney,
         uint256 _amountRaised,
-        uint256 _startTime,
-        uint256 _deadLine,
         uint256 _interestedPersonsNumber,
+        uint256 _state,
         address _buildingCostructor){
 
-        return(fundingGoal, amountRaised, startTime, deadline, interestedPersonsNumber, buildingCostructor);
+        return(fundingGoal, amountRaised, interestedPersonsNumber, state, buildingCostructor);
     }
 
     function checkDetailState() public view RegistrationCheck() returns(
@@ -128,18 +128,18 @@ contract crowdsaleHNC is ERC20{
         if (amountRaised == fundingGoal){
             fundingGoalReached = true;
             crowdsaleClosed = true;
-            emit GoalReached(beneficiary, amountRaised);
+            state = 1;
         }
     }
 
-    function checkGoalReached() public afterDeadline {
-        if (amountRaised == fundingGoal){
-            fundingGoalReached = true;
-            emit GoalReached(beneficiary, amountRaised);
-        }
+    function checkFundingGoalFail() public afterDeadline {
+        require(!crowdsaleClosed);
+        require(!fundingGoalReached);
+        require(msg.sender == beneficiary);
+
         crowdsaleClosed = true;
+        state = 2;
     }
-
 
     /**
      * Withdraw the funds

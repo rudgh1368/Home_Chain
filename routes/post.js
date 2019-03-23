@@ -118,7 +118,8 @@ var write = function (req, res) {
         var duration= new Date(paramDate);
 
         var gap = (duration.getTime() - now.getTime()) / (1000*60*60*24);
-        console.log("초기 gap : ",Math.ceil(gap));
+        console.log("deploy goalMoney : ",paramGoal);
+        console.log("deploy duration : ",Math.ceil(gap));
 
         duration = Math.ceil(gap);
 
@@ -181,7 +182,7 @@ var write = function (req, res) {
                                 link4: paramLink4,
                                 link5: paramLink5,
                                 fileName: paramFile,
-
+                                smart_addr: contractAddress
                             });
                             // var user = new database.UserModel(results);
                             // user 스키마에 작성 글 정보 추가, 글 쓰는건 시행사기 때문에 1번이 됨
@@ -355,7 +356,7 @@ var showpost = function (req, res) {
             }
 
             if (results) {
-                console.dir(results);
+                console.log("zzzzz", results);
 
                 res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
 
@@ -376,18 +377,55 @@ var showpost = function (req, res) {
                     context.user = req.user;
                 }
 
-                req.app.render('showpost', context, function (err, html) {
-                    if (err) {
-                        console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
+                var paramEncryptionWallet = req.user.accountEncryption;
+                var paramWalletPassword = req.user.wallet_password;
+                var contractAddress = results.smart_addr;
 
-                        res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-                        res.write('<script>alert("응답 웹문서 생성 중 에러 발생" + err.stack);' +
-                            'location.href="/listpost"</script>');
-                        res.end();
-                        return;
+                console.log("smartContract adderss : ", contractAddress);
+
+
+                connection.checkInvestState(paramEncryptionWallet, paramWalletPassword ,contractAddress, function (result) {
+
+                    var fundingGoalMoney = result[0];
+                    var amountRaised = result[1];
+                    var interestedPersonsNumber = result[2];
+                    var state = result[3];
+                    var buildingConstructor = result[4];
+
+                    if (buildingConstructor == "0x0000000000000000000000000000000000000000"){
+                        buildingConstructor = "등록 X";
                     }
 
-                    res.end(html);
+                    switch (state) {
+                        case '0' : state = "투자 진행중"; break;
+                        case '1' : state = "투자 완료, 시공중"; break;
+                        case '2' : state = "종료"; break;
+                        case '3' : state = "시공 완료"; break;
+                        case '4' : state = "종료"; break;
+                    }
+
+                    console.log("buildingConstructor : ", buildingConstructor);
+                    console.log("state : ", state);
+
+                    context.fundingGoalMoney = fundingGoalMoney;
+                    context.amountRaised = amountRaised;
+                    context.interestedPersonsNumber = interestedPersonsNumber;
+                    context.state = state;
+                    context.buildingConstructor = buildingConstructor;
+
+                    req.app.render('showpost', context, function (err, html) {
+                        if (err) {
+                            console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
+
+                            res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                            res.write('<script>alert("응답 웹문서 생성 중 에러 발생" + err.stack);' +
+                                'location.href="/listpost"</script>');
+                            res.end();
+                            return;
+                        }
+
+                        res.end(html);
+                    });
                 });
 
             } else {

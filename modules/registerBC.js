@@ -5,6 +5,7 @@ module.exports ={
 
     readEncryptionFile : function (accountEncryption, password, fileName, path, callback) {
         var encryptionFile = fs.readFileSync(path, 'utf8');
+        encryptionFile = JSON.parse(encryptionFile.toString());
         console.log("encryptionFile : ", encryptionFile);
 
         var messageHash = encryptionFile.messageHash;
@@ -18,6 +19,11 @@ module.exports ={
         var investmentAmount = name[2];
         var investmentForm = name[3];
 
+        console.log('messageHash : ', messageHash );
+        console.log('v : ', v );
+        console.log('r : ', r );
+        console.log('s : ', s );
+
         // accountEncryption, password, contractAddress, toAddress,  messageHash, v, r, s, amount, position, callback
         connection.investBuilding(accountEncryption, password, contractAddress, toAddress, messageHash, v, r, s, investmentAmount, investmentForm, function (result) {
             if(result){
@@ -29,4 +35,4 @@ module.exports ={
             }
         })
     }
-}
+};
