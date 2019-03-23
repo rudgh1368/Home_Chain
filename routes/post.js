@@ -61,7 +61,7 @@ var write = function (req, res) {
 
     var form = new formidable.IncomingForm();
 
-    var uri = '/home/km/WebstormProjects/graduate2/uploads/';
+    var uri = '/home/blockChain/contracts/Home_Chain-realMerged/uploads/';
 
     try {
         fs.mkdirSync(uri + paramWallet);
@@ -477,7 +477,7 @@ var download = function(req, res) {
             }
             if (result){
                 var fileName = result[0].fileName;
-                var path = "/home/km/WebstormProjects/graduate2/uploads/";
+                var path = "/home/blockChain/contracts/Home_Chain-realMerged/uploads/";
                 var file = path + fileName;
                 mimetype = mime.lookup(fileName);
 

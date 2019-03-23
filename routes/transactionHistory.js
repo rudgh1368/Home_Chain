@@ -40,27 +40,39 @@ var transactionHistory = function (req, res) {
 
                     console.log("contractAddress : ", contractAddress);
 
+                    var output = new Array();
                     connect.checkUseTokenAmount(paramEncryptionWallet, paramWalletPassword, contractAddress, function (transactionLength) {
-                        connect.checkUseToken(paramEncryptionWallet, paramWalletPassword, contractAddress, transactionLength, function (transactions) {
-                            context.output = transactions;
-                            console.log("output : ", transactions);
+                        var func = function () {
+                            for (var i = 0; i < transactionLength; i++) {
+                                var temp = {from: "", to: "", amount: "", content: ""};
+                                connect.checkUseToken(paramEncryptionWallet, paramWalletPassword, contractAddress, i, function (transaction) {
+                                    temp.from = transaction[0];
+                                    temp.to = transaction[1];
+                                    temp.amount = transaction[2];
+                                    temp.content = transaction[3];
+                                    output.push(temp);
+                                });
+                            }
+                            return function (output) {
+                                context.output = output;
+                                console.log("output : ", output);
+                                req.app.render('transactionHistory', context, function (err, html) {
+                                    if (err) {
+                                        console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
 
-                            req.app.render('transactionHistory', context, function (err, html) {
-                                if (err) {
-                                    console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
-
-                                    res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-                                    res.write('<script>alert("응답 웹문서 생성 중 에러 발생" + err.stack);' +
-                                        'location.href="/mypage"</script>');
-                                    res.end();
-                                    return;
-                                }
-                                res.end(html);
-                            });
-                        });
+                                        res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                        res.write('<script>alert("응답 웹문서 생성 중 에러 발생" + err.stack);' +
+                                            'location.href="/mypage"</script>');
+                                        res.end();
+                                        return;
+                                    }
+                                    res.end(html);
+                                });
+                            }
+                        }
+                        func();
                     });
                 }
-                ;
             });
         }
         ;
