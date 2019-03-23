@@ -1,7 +1,7 @@
 var fs = require('fs');
 var connection = require('../connection/connect');
 
-module.exports ={
+module.exports = {
 
     readEncryptionFile : function (accountEncryption, password, fileName, path, callback) {
         var encryptionFile = fs.readFileSync(path, 'utf8');
@@ -28,7 +28,26 @@ module.exports ={
         connection.investBuilding(accountEncryption, password, contractAddress, toAddress, messageHash, v, r, s, investmentAmount, investmentForm, function (result) {
             if(result){
                 console.log("등록완료");
-                callback(true);
+
+                var database = require('../database/database');
+
+                if(database.db){
+                    database.PostModel.findByAddress(contractAddress, function(err, result_title){
+                        if (err) callback(false);
+                        if (result_title){
+                            if (result_title.length == 1){
+                                var postTitle = result_title[0].title;
+                                var postRole = parseInt(investmentForm);
+                                database.UserModel.adding_role(toAddress, postTitle, contractAddress, postRole, function (err, result) {
+                                    if (err) callback(false);
+                                    if (result) callback(true);
+                                })
+                            }
+                        }
+                    })
+                } else {
+                    callback(false);
+                }
             }else{
                 console.log("등록실패");
                 callback(false);

@@ -120,8 +120,8 @@ postSchema.createSchema = function (mongoose) {
                     resolve(self.collection.countDocuments());
                 });
         },
-        findByTitle: function(title, callback){
-            return this.find({title: title}, callback);
+        findByAddress: function(smart_addr, callback){
+            return this.find({smart_addr: smart_addr}, callback);
         },
         forMypage: function(list, callback){
             var titles = [];

@@ -356,7 +356,6 @@ var showpost = function (req, res) {
             }
 
             if (results) {
-                console.log("zzzzz", results);
 
                 res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
 
@@ -380,7 +379,19 @@ var showpost = function (req, res) {
                 var paramEncryptionWallet = req.user.accountEncryption;
                 var paramWalletPassword = req.user.wallet_password;
                 var contractAddress = results.smart_addr;
-
+                var userPosts = req.user.posts;
+                var master;
+                for (var i = 0; i < userPosts.length; i++){
+                    if (userPosts[i].smart_addr == contractAddress){
+                        if (userPosts[i].role == 1){
+                            master = 1;
+                            break;
+                        } else {
+                            master = 0;
+                            break;
+                        }
+                    } else master = 0;
+                }
                 console.log("smartContract adderss : ", contractAddress);
 
 
@@ -412,6 +423,7 @@ var showpost = function (req, res) {
                     context.interestedPersonsNumber = interestedPersonsNumber;
                     context.state = state;
                     context.buildingConstructor = buildingConstructor;
+                    context.master = master;
 
                     req.app.render('showpost', context, function (err, html) {
                         if (err) {
