@@ -12,7 +12,7 @@ contract crowdsaleHNC is ERC20{
     uint state;                                     // 0 : 모금중, 1 : fundingGoalReached, 2: not fundingGoalReached, 3 : complete, 4 : fail
 
     // 투자자, 수분양자, 시공사 정보
-    // 시공사 : 0 투자자 : 1, 수분양자 : 2 시공사 : 3
+    // 시공사 : 1 투자자 : 2, 수분양자 : 3 시공사 : 4
 
     struct interestedPerson{
         uint256 realMoney;
@@ -55,10 +55,16 @@ contract crowdsaleHNC is ERC20{
         startTime = now;
         deadline = now + durationInDays * 1 days;
         price = costOfEachToken;
-        // interestedPersons[msg.sender].position = 0;
-        // interestedPersons[msg.sender].registerState = true;
+        interestedPersons[msg.sender].position = 0;
+        interestedPersons[msg.sender].registerState = true;
     }
 
+    function test() view public returns(bool){
+        if(crowdsaleClosed && fundingGoalReached && interestedPersons[msg.sender].registerState ){
+            return true;
+        }
+        else return false;
+    }
     /**
      * Invest function
      */

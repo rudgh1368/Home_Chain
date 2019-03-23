@@ -1,6 +1,6 @@
 var connect = require('../connection/connect');
 
-var transactionHistory = function (req, res){
+var transactionHistory = function (req, res) {
     var context = {};
 
     if (!req.user) {
@@ -9,7 +9,7 @@ var transactionHistory = function (req, res){
         res.write('<script>alert("먼저 로그인해주세요.");' +
             'location.href="/login"</script>');
         res.end();
-    }else {
+    } else {
         console.log('post: 사용자 인증된 상태임.');
         console.log('회원정보 로드.');
         console.dir(req.user);
@@ -38,24 +38,12 @@ var transactionHistory = function (req, res){
                     var paramEncryptionWallet = req.user.accountEncryption;
                     var paramWalletPassword = req.user.wallet_password;
 
+                    console.log("contractAddress : ", contractAddress);
+
                     connect.checkUseTokenAmount(paramEncryptionWallet, paramWalletPassword, contractAddress, function (transactionLength) {
-
-                        var output = new Array();
-
-                        new Promise(function(resolve, reject){
-                            for(var i=0; i<transactionLength; i++){
-                                connect.checkUseToken(paramEncryptionWallet, paramWalletPassword, contractAddress, i, function (transaction) {
-                                    var temp;
-                                    temp.from = transaction[0];
-                                    temp.to = transaction[1];
-                                    temp.amount = transaction[2];
-                                    temp.content = transaction[3];
-                                    output.push(temp);
-                                });
-                            }
-                            resolve(output);
-                        }).then(function(output){
-                            context.output = output;
+                        connect.checkUseToken(paramEncryptionWallet, paramWalletPassword, contractAddress, transactionLength, function (transactions) {
+                            context.output = transactions;
+                            console.log("output : ", transactions);
 
                             req.app.render('transactionHistory', context, function (err, html) {
                                 if (err) {
@@ -71,10 +59,13 @@ var transactionHistory = function (req, res){
                             });
                         });
                     });
-                };
+                }
+                ;
             });
-        };
-    };
+        }
+        ;
+    }
+    ;
 };
 
 module.exports.transactionHistory = transactionHistory;

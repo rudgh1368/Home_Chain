@@ -344,27 +344,38 @@ module.exports = {
         })
     },
 
-    checkUseToken : function (accountEncryption, password, contractAddress, serial, callback) {
+    checkUseToken : function (accountEncryption, password, contractAddress, transactionLength, callback) {
         console.log('web3, checkUseToken 접근');
+        var output = new Array();
 
-        var accountDecryption = web3.eth.accounts.decrypt(accountEncryption, password);
-        var address = accountDecryption.address;
+        for(var i=0;i<transactionLength;i++){
+            var temp = {from: "", to: "", amount: "", content: ""};
+            var accountDecryption = web3.eth.accounts.decrypt(accountEncryption, password);
+            var address = accountDecryption.address;
 
-        HomeChain.setProvider(web3.currentProvider);
-        HomeChain.options.address = contractAddress;
+            HomeChain.setProvider(web3.currentProvider);
+            HomeChain.options.address = contractAddress;
 
-        HomeChain.methods.checkUseToken(serial).call({
-            from : address
-        }, function (err, result) {
-            if(err) {
-                console.log(err);
-                callback(err)
-            }
-            else {
-                console.log('transaction : ', result)
-                callback(result)
-            }
-        })
+            HomeChain.methods.checkUseToken(i).call({
+                from : address
+            }, function (err, result) {
+                if(err) {
+                    console.log(err);
+                    callback(err);
+                }
+                else {
+                    console.log('transaction : ', result);
+                    temp.from = result[0];
+                    temp.to = result[1];
+                    temp.amount = result[2];
+                    temp.content = result[3];
+                    output.push(temp);
+                    if (i==transactionLength){
+                        callback(result)
+                    }
+                }
+            })
+        }
     }
 };
 function sendEther(address){

@@ -20,8 +20,8 @@ contract HNC is ERC20, ERC20Detailed, Ownable, crowdsaleHNC, bankCheck{
 
     // transcation
     struct usageTokenDetail{
-        address from;
-        address to;
+        address fromAddress;
+        address toAddress;
         uint256 amout;
         string content;
     }
@@ -45,7 +45,7 @@ contract HNC is ERC20, ERC20Detailed, Ownable, crowdsaleHNC, bankCheck{
     crowdsaleHNC(owner(), fundingGoalMoney, duration, pricePerMoney)
     public{
         // token creation
-        _mint(owner(), calculateToken(fundingGoalMoney) /*totalSupply*/);
+        _mint(owner(), fundingGoalMoney /*totalSupply*/);
     }
 
     function calculateToken(uint256 __fundingGoalMonry) internal pure returns(uint){
@@ -95,34 +95,26 @@ contract HNC is ERC20, ERC20Detailed, Ownable, crowdsaleHNC, bankCheck{
     }
 
     function useToken(address _to, uint256 _amount, string memory _content) checkSuccessCrowdSaleClosed() RegistrationCheck() public{
-        require((_to == bankAddress) && (_to == getBuildingCostructor()));
+        require((_to == bankAddress) || (_to == getBuildingCostructor()));
 
-        transfer(_to, _amount);
+        // transfer(_to, _amount);
 
         usageTokenDetail memory temp;
-        temp.from = msg.sender;
-        temp.to = _to;
+        temp.fromAddress = msg.sender;
+        temp.toAddress = _to;
         temp.amout = _amount;
         temp.content = _content;
 
         statement.push(temp);
     }
 
-    function checkUseTokenAmount() public view checkSuccessCrowdSaleClosed() RegistrationCheck() returns(uint256 length) {
+    function checkUseTokenAmount() public view checkSuccessCrowdSaleClosed() RegistrationCheck() returns(uint) {
         return statement.length;
     }
 
     function checkUseToken(uint256 serial) public view checkSuccessCrowdSaleClosed() RegistrationCheck() returns(address _from, address _to, uint256 _amount, string memory _content){
-        return (statement[serial].from, statement[serial].to, statement[serial].amout, statement[serial].content);
+        return (statement[serial].fromAddress, statement[serial].toAddress, statement[serial].amout, statement[serial].content);
     }
 
 }
-
-
-
-
-
-
-
-
 
