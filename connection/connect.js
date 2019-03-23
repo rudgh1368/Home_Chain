@@ -163,9 +163,9 @@ module.exports = {
 
         //address와 toAddress가 같은지 체크
         var address = accountDecryption.address;
-        // if(address!=toAddress){
-        //     callback(false);
-        // }else{
+        if (address != toAddress) {
+            callback(false);
+        } else {
             var privateKey = accountDecryption.privateKey;
             HomeChain.setProvider(web3.currentProvider);
             HomeChain.options.address = contractAddress;
@@ -174,10 +174,10 @@ module.exports = {
             var encodedABI = transfer.encodeABI();
 
             var tx = {
-                from : address,
-                to : contractAddress,
-                gas : 6721975,
-                data : encodedABI
+                from: address,
+                to: contractAddress,
+                gas: 6721975,
+                data: encodedABI
             };
 
             web3.eth.accounts.signTransaction(tx, privateKey).then(signed => {
@@ -204,7 +204,8 @@ module.exports = {
                     callback(true);
                 });
             });
-        },
+        }
+    },
 
     useToken : function (accountEncryption, password, contractAddress, toAddress, amount, content, callback) {
         console.log('web3, useToken 접근');
@@ -257,6 +258,7 @@ module.exports = {
         var accountDecryption = web3.eth.accounts.decrypt(accountEncryption, password);
         var address = accountDecryption.address;
         var privateKey = accountDecryption.privateKey;
+
         HomeChain.setProvider(web3.currentProvider);
         HomeChain.options.address = contractAddress;
 
@@ -314,6 +316,52 @@ module.exports = {
             }
             else {
                 console.log('checkInvestState : ', result)
+                callback(result)
+            }
+        })
+    },
+
+    checkUseTokenAmount : function (accountEncryption, password, contractAddress, callback) {
+        console.log('web3, checkUseTokenAmount 접근');
+
+        var accountDecryption = web3.eth.accounts.decrypt(accountEncryption, password);
+        var address = accountDecryption.address;
+
+        HomeChain.setProvider(web3.currentProvider);
+        HomeChain.options.address = contractAddress;
+
+        HomeChain.methods.checkUseTokenAmount().call({
+            from : address
+        }, function (err, result) {
+            if(err) {
+                console.log(err);
+                callback(err)
+            }
+            else {
+                console.log('transactionLength : ', result)
+                callback(result)
+            }
+        })
+    },
+
+    checkUseToken : function (accountEncryption, password, contractAddress, serial, callback) {
+        console.log('web3, checkUseToken 접근');
+
+        var accountDecryption = web3.eth.accounts.decrypt(accountEncryption, password);
+        var address = accountDecryption.address;
+
+        HomeChain.setProvider(web3.currentProvider);
+        HomeChain.options.address = contractAddress;
+
+        HomeChain.methods.checkUseToken(serial).call({
+            from : address
+        }, function (err, result) {
+            if(err) {
+                console.log(err);
+                callback(err)
+            }
+            else {
+                console.log('transaction : ', result)
                 callback(result)
             }
         })
