@@ -154,7 +154,7 @@
                 var curCreated = posts[i].createdTime;
                 var curNo = noStart - i + totalRecords;
             %>
-            <tr>
+            <tr style="cursor:pointer" onclick="document.location.href='/showpost/<%= posts[i]._id %>'">
                 <td><%= curNo %>
                 </td>
                 <% if (curLocation == '서울') { %>
@@ -191,14 +191,14 @@
                     <td><%= curLocation %>
                     </td>
                 <% } %>
-                <td>
-                    <a href="/showpost/<%= posts[i]._id %>"><%= curTitle %>
-                    </a></td>
+                <td><b><%= curTitle %></b>
+                </td>
                 <td><%= curWriter %>
                 </td>
                 <td><%= curCreated %>
                 </td>
             </tr>
+
             <%
             }
             %>

@@ -21,31 +21,61 @@ var mypage = function (req, res) {
         var database = req.app.get('database');
 
         if (database.db) {
+            context.users = req.user.id;
+            new Promise(function (resolve, reject) {
+                database.UserModel.findRole1(req.user.id, function (err, results_user) {
+                    if (err) {
+                        console.error('findRole1 에러 : ' + err.stack);
 
-            // 작성 글 가져오기 (시행사일 경우)
-            database.UserModel.findRole1(req.user.id, function (err, results_user) {
+                        res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                        res.write('<script>alert("시행사 글 조회 중 에러 발생" + err.stack);' +
+                            'location.href="/"</script>');
+                        res.end();
+                        return;
+                    }
+                    if (results_user) {
+                        var titles = [];
+                        if (results_user.length != 0) {
+                            for (i = 0; i < results_user.length; i++) {
+                                titles[i] = results_user[i].posts.title;
+                            }
+                            database.PostModel.forMypage(titles, function (err, results_post) {
+                                if (err) {
+                                    console.error('role1의 forMypage 에러 : ' + err.stack);
 
-                if (err) {
-                    console.error('시행사 글 조회 중 에러 발생 : ' + err.stack);
-
-                    res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-                    res.write('<script>alert("시행사 글 조회 중 에러 발생" + err.stack);' +
-                        'location.href="/"</script>');
-                    res.end();
-                    return;
-                }
-
-                if (results_user) {
-                    var titles = [];
-                    console.dir(results_user.length);
-                    if (results_user.length != 0) {
-                        for (i = 0; i < results_user.length; i++) {
-                            titles[i] = results_user[i].posts.title;
+                                    res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                    res.write('<script>alert("시행사 글 조회 중 에러 발생" + err.stack);' +
+                                        'location.href="/"</script>');
+                                    res.end();
+                                    return;
+                                }
+                                if (results_post) {
+                                    context.posts_role1 = results_post;
+                                    resolve(context);
+                                } else {
+                                    res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                    res.write('<script>alert("글 조회 실패" + err.stack);' +
+                                        'location.href="/"</script>');
+                                    res.end();
+                                }
+                            });
+                        } else {
+                            context.posts_role1 = 0;
+                            resolve(context);
                         }
-
-                        database.PostModel.forMypage(titles, function (err, results_post) {
+                    } else {
+                        res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                        res.write('<script>alert("글 조회 실패" + err.stack);' +
+                            'location.href="/"</script>');
+                        res.end();
+                    }
+                });
+            })
+                .then(function (context) {
+                    new Promise(function (resolve, reject) {
+                        database.UserModel.findRole2(req.user.id, function (err, results_user) {
                             if (err) {
-                                console.error('시행사 글 조회 중 에러 발생 : ' + err.stack);
+                                console.error('findRole2 에러 : ' + err.stack);
 
                                 res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
                                 res.write('<script>alert("시행사 글 조회 중 에러 발생" + err.stack);' +
@@ -53,24 +83,36 @@ var mypage = function (req, res) {
                                 res.end();
                                 return;
                             }
-
-                            if (results_post) {
-                                console.dir(results_post);
-                                context.posts = results_post;
-                                res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-                                req.app.render('mypage', context, function (err, html) {
-                                    if (err) {
-                                        console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
-
-                                        res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-                                        res.write('<script>alert("응답 웹문서 생성 중 에러 발생" + err.stack);' +
-                                            'location.href="/"</script>');
-                                        res.end();
-                                        return;
+                            if (results_user) {
+                                var titles = [];
+                                if (results_user.length != 0) {
+                                    for (i = 0; i < results_user.length; i++) {
+                                        titles[i] = results_user[i].posts.title;
                                     }
+                                    database.PostModel.forMypage(titles, function (err, results_post) {
+                                        if (err) {
+                                            console.error('role2의 forMypage 에러 : ' + err.stack);
 
-                                    res.end(html);
-                                });
+                                            res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                            res.write('<script>alert("시행사 글 조회 중 에러 발생" + err.stack);' +
+                                                'location.href="/"</script>');
+                                            res.end();
+                                            return;
+                                        }
+                                        if (results_post) {
+                                            context.posts_role2 = results_post;
+                                            resolve(context);
+                                        } else {
+                                            res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                            res.write('<script>alert("글 조회 실패" + err.stack);' +
+                                                'location.href="/"</script>');
+                                            res.end();
+                                        }
+                                    });
+                                } else {
+                                    context.posts_role2 = 0;
+                                    resolve(context);
+                                }
                             } else {
                                 res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
                                 res.write('<script>alert("글 조회 실패" + err.stack);' +
@@ -78,31 +120,73 @@ var mypage = function (req, res) {
                                 res.end();
                             }
                         });
-                    } else {
-                        context.posts = 0;
-                        res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-                        req.app.render('mypage', context, function (err, html) {
-                            if (err) {
-                                console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
+                    }).then(function (context) {
+                        new Promise(function (resolve, reject) {
+                            database.UserModel.findRole3(req.user.id, function (err, results_user) {
+                                if (err) {
+                                    console.error('findRole3 에러 : ' + err.stack);
 
-                                res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-                                res.write('<script>alert("응답 웹문서 생성 중 에러 발생" + err.stack);' +
-                                    'location.href="/"</script>');
-                                res.end();
-                                return;
-                            }
+                                    res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                    res.write('<script>alert("시행사 글 조회 중 에러 발생" + err.stack);' +
+                                        'location.href="/"</script>');
+                                    res.end();
+                                    return;
+                                }
+                                if (results_user) {
+                                    var titles = [];
+                                    if (results_user.length != 0) {
+                                        for (i = 0; i < results_user.length; i++) {
+                                            titles[i] = results_user[i].posts.title;
+                                        }
+                                        database.PostModel.forMypage(titles, function (err, results_post) {
+                                            if (err) {
+                                                console.error('role3의 forMypage 에러 : ' + err.stack);
 
-                            res.end(html);
+                                                res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                                res.write('<script>alert("시행사 글 조회 중 에러 발생" + err.stack);' +
+                                                    'location.href="/"</script>');
+                                                res.end();
+                                                return;
+                                            }
+                                            if (results_post) {
+                                                context.posts_role3 = results_post;
+                                                resolve(context);
+                                            } else {
+                                                res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                                res.write('<script>alert("글 조회 실패" + err.stack);' +
+                                                    'location.href="/"</script>');
+                                                res.end();
+                                            }
+                                        });
+                                    } else {
+                                        context.posts_role3 = 0;
+                                        resolve(context);
+                                    }
+                                } else {
+                                    res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                    res.write('<script>alert("글 조회 실패" + err.stack);' +
+                                        'location.href="/"</script>');
+                                    res.end();
+                                }
+                            });
+                        }).then(function (context) {
+                            res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                            req.app.render('mypage', context, function (err, html) {
+                                if (err) {
+                                    console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
+
+                                    res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                    res.write('<script>alert("응답 웹문서 생성 중 에러 발생" + err.stack);' +
+                                        'location.href="/"</script>');
+                                    res.end();
+                                    return;
+                                }
+
+                                res.end(html);
+                            });
                         });
-                    }
-
-                } else {
-                    res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-                    res.write('<script>alert("글 조회 실패" + err.stack);' +
-                        'location.href="/"</script>');
-                    res.end();
-                }
-            });
+                    });
+                });
         } else {
             res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
             res.write('<script>alert("데이터베이스 연결 실패" + err.stack);' +
@@ -110,7 +194,6 @@ var mypage = function (req, res) {
             res.end();
         }
     }
-
 }
 
 module.exports.mypage = mypage;
