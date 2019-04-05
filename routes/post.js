@@ -61,21 +61,21 @@ var write = function (req, res) {
 
     var form = new formidable.IncomingForm();
 
-    var uri = '/home/km/WebstormProjects/graduate2/uploads/';
+    var uri = '/home/yang/WebstormProjects/graduate2/uploads/';
 
     try {
         fs.mkdirSync(uri + paramWallet);
         // fs.writeFileSync(uri + paramWallet + "/" + newPath , a, encoding='utf8')
     } catch (err) {
         if (err.code !== 'EEXIST') {
-            console.log("directory already exsist" + err);
+            console.log("directory already exist" + err);
             // fs.writeFileSync(__dirname + '/zzzzzz/aa', a, encoding='utf8')
         }
     }
     form.uploadDir = uri + paramWallet;
     form.keepExtensions = true;
     form.parse(req, function (err, fields, files) {
-        console.log("files", files.pdfFile.path)
+        console.log("files", files.pdfFile.path);
 
         // 파일이름에 날짜 입력
         var today = new Date();
@@ -477,7 +477,7 @@ var download = function(req, res) {
             }
             if (result){
                 var fileName = result[0].fileName;
-                var path = "/home/km/WebstormProjects/graduate2/uploads/";
+                var path = "/home/yang/WebstormProjects/graduate2/uploads/";
                 var file = path + fileName;
                 mimetype = mime.lookup(fileName);
 

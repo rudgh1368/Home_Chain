@@ -27,23 +27,6 @@
 
 <!-- ##### Header Area Start ##### -->
 <header class="header-area">
-
-    <!-- Top Header Area -->
-    <div class="top-header-area d-flex justify-content-between align-items-center">
-        <!-- Contact Info -->
-        <div class="contact-info">
-            <a href="#"><span>Phone:</span> +44 300 303 0266</a>
-            <a href="#"><span>Email:</span> info@clever.com</a>
-        </div>
-        <!-- Follow Us -->
-        <div class="follow-us">
-            <span>Follow us</span>
-            <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-            <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-        </div>
-    </div>
-
     <!-- Navbar Area -->
     <div class="clever-main-menu">
         <div class="classy-nav-container breakpoint-off">
@@ -51,7 +34,7 @@
             <nav class="classy-navbar justify-content-between" id="cleverNav">
 
                 <!-- Logo -->
-                <a class="nav-brand" href="index.ejs"><img src="../public/img/core-img/logo.png" alt=""></a>
+                <a class="nav-brand" href="/"><img src="../public/img/core-img/logo.png" alt=""></a>
 
                 <!-- Navbar Toggler -->
                 <div class="classy-navbar-toggler">
@@ -69,30 +52,17 @@
                     <!-- Nav Start -->
                     <div class="classynav">
                         <ul>
-                            <li><a href="index.ejs">Home</a></li>
-                            <li><a href="#">Pages</a>
-                                <ul class="dropdown">
-                                    <li><a href="index.ejs">Home</a></li>
-                                    <li><a href="courses.html">Courses</a></li>
-                                    <li><a href="showpost.ejs">Single Courses</a></li>
-                                    <li><a href="instructors.html">Instructors</a></li>
-                                    <li><a href="blog.html">Blog</a></li>
-                                    <li><a href="blog-details.html">Single Blog</a></li>
-                                    <li><a href="regular-page.html">Regular Page</a></li>
-                                    <li><a href="contact.html">Contact</a></li>
-                                </ul>
+                            <li><a href="/">홈</a></li>
+                            <li><a href="/addpost">글 작성</a></li>
+                            <li><a href="/listpost">글 목록</a></li>
+                            <li><a href="/mypage">마이페이지</a>
                             </li>
-                            <li><a href="courses.html">Courses</a></li>
-                            <li><a href="instructors.html">Instructors</a></li>
-                            <li><a href="blog.html">Blog</a></li>
-                            <li><a href="contact.html">Contact</a></li>
+
                         </ul>
 
                         <!-- Search Button -->
-                        <div class="search-area">
+                        <div class="search-area" style="width: 400px">
                             <form action="#" method="post">
-                                <input type="search" name="search" id="search" placeholder="Search">
-                                <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                             </form>
                         </div>
 
@@ -213,7 +183,7 @@
                                     <!-- About Course -->
                                     <div class="about-course mb-30">
                                         <div class="container"><h4>개발내역</h4>
-                                            <a href="<%= posts.link1 %>"><p><%= posts.link1 %></p></a></div>
+                                            <a href="http://<%= posts.link1 %>" target="_blank"><p><%= posts.link1 %></p></a></div>
 
                                     </div>
 
@@ -375,7 +345,7 @@
                                     <!-- About Curriculum -->
                                     <div class="about-curriculum mb-30">
                                         <h4>인 / 허가</h4>
-                                        <a href="<%= posts.link2 %>"><p><%= posts.link2 %></p></a>
+                                        <a href="http://<%= posts.link2 %>" target="_blank"><p><%= posts.link2 %></p></a>
                                     </div>
 
                                     <!--&lt;!&ndash; Curriculum Level &ndash;&gt;-->
@@ -453,7 +423,7 @@
                                     <!-- About Review -->
                                     <div class="about-review mb-30">
                                         <h4>수익성 분석</h4>
-                                        <a href="<%= posts.link3 %>"><p><%= posts.link3 %></p></a>
+                                        <a href="http://<%= posts.link3 %>" target="_blank"><p><%= posts.link3 %></p></a>
                                     </div>
 
                                     <!--&lt;!&ndash; Ratings &ndash;&gt;-->
@@ -583,7 +553,7 @@
                                     <!-- About Members -->
                                     <div class="about-members mb-30">
                                         <h4>계약 지침</h4>
-                                        <a href="<%= posts.link4 %>"><p><%= posts.link4 %></p></a>
+                                        <a href="http://<%= posts.link4 %>" target="_blank"><p><%= posts.link4 %></p></a>
                                     </div>
 
                                     <!-- All Members -->
@@ -704,7 +674,7 @@
                                     <!-- About Review -->
                                     <div class="about-review mb-30">
                                         <h4>시행사 정보</h4>
-                                        <a href="<%= posts.link5 %>"><p><%= posts.link5 %></p></a>
+                                        <a href="http://<%= posts.link5 %>" target="_blank"><p><%= posts.link5 %></p></a>
                                     </div>
 
                                     <!-- Ratings -->

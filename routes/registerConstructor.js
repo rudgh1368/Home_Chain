@@ -17,7 +17,40 @@ var registerConstructor = function (req, res) {
         context.login_success = true;
         context.user = req.user;
         context.output = undefined;
-        res.render('registerConstructor.ejs', context);
+
+        var database = req.app.get('database');
+
+        // 데이터베이스 객체가 초기화 된 경우
+        if (database.db){
+            database.UserModel.findRole1(req.user.id, function(err, results){
+                if (err) {
+                    console.error('시행사 글 조회 에러 : ' + err.stack);
+
+                    res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                    res.write('<script>alert("시행사 글 조회 중 에러 발생" + err.stack);' +
+                        'location.href="/"</script>');
+                    res.end();
+                    return;
+                }
+                if (results) {
+                    if (results.length != 0){
+                        context.userpost = results;
+                        res.render('registerConstructor.ejs', context);
+                    } else {
+                        res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                        res.write('<script>alert("진행중인 펀딩이 없습니다.");' +
+                            'location.href="/"</script>');
+                        res.end();
+                    }
+
+                }
+            });
+        } else {
+            res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+            res.write('<script>alert("데이터베이스 연결 실패" + err.stack);' +
+                'location.href="/"</script>');
+            res.end();
+        }
     }
 };
 
@@ -46,7 +79,7 @@ var register = function (req, res) {
         var contractAddress = req.body.smartContractAddress;
 
         console.log("buildingConstructor : ", buildingConstructor);
-
+        console.log("contractAddress: ", contractAddress);
         // 시행사인지 체크
         //accountEncryption, password, contractAddress, buildingConstructor, callback
         connection.registerBuildingCostructor(encryptionWallet, walletPassword, contractAddress, buildingConstructor, function (result) {
@@ -79,8 +112,10 @@ var register = function (req, res) {
                                         return;
                                     }
                                     if (result) {
-                                        context.output="success";
-                                        res.render('registerConstructor.ejs', context);
+                                        res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                        res.write('<script>alert("등록 성공");' +
+                                            'location.href="/"</script>');
+                                        res.end();
                                     }
                                 });
                             } else{
