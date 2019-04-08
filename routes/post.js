@@ -5,7 +5,6 @@ var Entities = require('html-entities').AllHtmlEntities;
 var formidable = require('formidable');
 var fs = require('fs');
 var connection = require('../connection/connect');
-var mime = require('mime');
 
 var addpost = function (req, res) {
     console.log('post 모듈 안에 있는 addpost 호출됨.');
@@ -477,14 +476,11 @@ var download = function(req, res) {
             }
             if (result){
                 var fileName = result[0].fileName;
-                var path = "/home/yang/WebstormProjects/graduate2/uploads/";
+                var folder = result[0].dev_wallet;
+                var path = "/home/yang/WebstormProjects/graduate2/uploads/" + folder + "/";
                 var file = path + fileName;
-                mimetype = mime.lookup(fileName);
-
-                res.setHeader('Content-dispostion', 'attachment;filename=' + fileName);
-                res.setHeader('Content-type', mimetype);
-                var fileStream = fs.createReadStream(file);
-                fileStream.pipe(res);
+                console.log("file: " + file);
+                res.download(file);
             }
         });
     } else {

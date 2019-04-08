@@ -42,7 +42,10 @@ var use = function (req, res) {
     //accountEncryption, password, contractAddress, toAddress, amount, content, callback
     connection.useToken(encryptionWallet, walletPassword, contractAddress, toAddress, tokenAmount, content, function (result) {
        if(result) {
-           res.render('useToken.ejs', {output : "success"});
+           res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+           res.write('<script>alert("등록 성공");' +
+               'location.href="/"</script>');
+           res.end();
        }
     });
 };

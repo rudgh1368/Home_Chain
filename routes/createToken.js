@@ -4,7 +4,23 @@ var fs = require('fs');
 var createToken = function (req, res) {
     console.log("createToken 접근");
 
-    res.render('createToken.ejs', {output : undefined});
+    if(!req.user){
+        console.log('사용자 인증 안된 상태임.');
+        res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+        res.write('<script>alert("먼저 로그인해주세요.");' +
+            'location.href="/login"</script>');
+        res.end();
+    } else if (req.user.id != "BANK"){
+        console.log('권한 없는 사용자.');
+        res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+        res.write('<script>alert("권한이 없습니다.");' +
+            'location.href="/"</script>');
+        res.end();
+    } else{
+        res.render('createToken.ejs', {output : undefined});
+    }
+
+
 }
 
 var create = function (req, res) {
