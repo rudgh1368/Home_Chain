@@ -45,7 +45,7 @@ var register = function (req, res) {
         var walletPassword = req.user.wallet_password;
 
         var form = new formidable.IncomingForm();
-        var uri = '/home/yang/WebstormProjects/graduate2/';
+        var uri = '/home/blockChain/contracts/Home_Chain-realMerged (사본)/';
 
         form.uploadDir = uri;
         form.keepExtensions = true;

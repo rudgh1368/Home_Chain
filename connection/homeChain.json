@@ -253,7 +253,7 @@
     "name": "checkUseTokenAmount",
     "outputs": [
       {
-        "name": "length",
+        "name": "",
         "type": "uint256"
       }
     ],
@@ -625,6 +625,20 @@
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "test",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
     "type": "function"
   },
   {

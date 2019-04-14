@@ -60,7 +60,7 @@ var write = function (req, res) {
 
     var form = new formidable.IncomingForm();
 
-    var uri = '/home/yang/WebstormProjects/graduate2/uploads/';
+    var uri = '/home/blockChain/contracts/Home_Chain-realMerged (사본)/uploads/';
 
     try {
         fs.mkdirSync(uri + paramWallet);
@@ -477,7 +477,7 @@ var download = function(req, res) {
             if (result){
                 var fileName = result[0].fileName;
                 var folder = result[0].dev_wallet;
-                var path = "/home/yang/WebstormProjects/graduate2/uploads/" + folder + "/";
+                var path = "/home/blockChain/contracts/Home_Chain-realMerged (사본)/uploads/" + folder + "/";
                 var file = path + fileName;
                 console.log("file: " + file);
                 res.download(file);
