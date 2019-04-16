@@ -6,13 +6,13 @@ var registerBC = require('../modules/registerBC');
 var registerToken = function (req, res) {
     console.log("registerToken 접근");
 
-    if(!req.user){
+    if (!req.user) {
         console.log('사용자 인증 안된 상태임.');
         res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
         res.write('<script>alert("먼저 로그인해주세요.");' +
             'location.href="/login"</script>');
         res.end();
-    } else{
+    } else {
         var context = {}
         console.log('사용자 인증된 상태임.');
         console.log('회원정보 로드.');
@@ -26,7 +26,7 @@ var registerToken = function (req, res) {
 var register = function (req, res) {
     console.log("registerToken/register 접근");
 
-    if(!req.user){
+    if (!req.user) {
         console.log('사용자 인증 안된 상태임.');
         res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
         res.write('<script>alert("먼저 로그인해주세요.");' +
@@ -45,7 +45,7 @@ var register = function (req, res) {
         var walletPassword = req.user.wallet_password;
 
         var form = new formidable.IncomingForm();
-        var uri = '/home/blockChain/contracts/Home_Chain-realMerged (사본)/';
+        var uri = '/home/yang/WebstormProjects/homechain/';
 
         form.uploadDir = uri;
         form.keepExtensions = true;
@@ -59,6 +59,8 @@ var register = function (req, res) {
                 if (result == true) {
                     var name = files.signedToken.name.split("|");
                     var contractAddress = name[0];
+                    var walletAddress = name[1];
+                    var investmentForm = name[3];
 
                     var newPath = uri + contractAddress;
                     try {
@@ -94,11 +96,80 @@ var register = function (req, res) {
                     today = yyyy + '.' + mm + '.' + dd + "." + ss + ".";
                     var newName = today + files.signedToken.name;
                     fs.renameSync(files.signedToken.path, newPath + '/' + newName);
-                    context.output="success";
+                    context.output = "success";
 
-                    res.render('registerToken.ejs', context);
+
+                    var database = require('../database/database');
+                    if (database.db) {
+                        database.PostModel.add_investor(walletAddress, contractAddress, function (err, result) {
+                            if (err) {
+                                console.error('add_investor 에러 : ' + err.stack);
+                                res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                res.write('<script>alert("투자자 등록중 에러 발생" + err.stack);' +
+                                    'location.href="/registerToken"</script>');
+                                res.end();
+                                return;
+                            }
+                            if (result) {
+                                database.PostModel.findByAddress(contractAddress, function (err, result_title) {
+                                    if (err) {
+                                        console.error('findByAddress 에러 : ' + err.stack);
+                                        res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                        res.write('<script>alert("투자자 등록중 에러 발생" + err.stack);' +
+                                            'location.href="/registerToken"</script>');
+                                        res.end();
+                                        return;
+                                    }
+                                    if (result_title) {
+                                        if (result_title.length == 1) {
+                                            var postTitle = result_title[0].title;
+                                            var postRole = parseInt(investmentForm);
+                                            database.UserModel.adding_role(walletAddress, postTitle, contractAddress, postRole, function (err, result) {
+                                                if (err) {
+                                                    console.error('adding_role 에러 : ' + err.stack);
+                                                    res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                                    res.write('<script>alert("투자자 등록중 에러 발생" + err.stack);' +
+                                                        'location.href="/registerToken"</script>');
+                                                    res.end();
+                                                    return;
+                                                }
+                                                if (result) {
+                                                    // res.render('registerToken.ejs', context);
+                                                    res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                                    res.write('<script>alert("등록 성공");' +
+                                                        'location.href="/"</script>');
+                                                    res.end();
+                                                }
+                                            })
+                                        } else {
+                                            console.error('findByAddress 에러 : ' + err.stack);
+                                            res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                            res.write('<script>alert("투자자 등록중 에러 발생" + err.stack);' +
+                                                'location.href="/registerToken"</script>');
+                                            res.end();
+                                            return;
+                                        }
+                                    } else {
+                                        console.error('findByAddress 에러 : ' + err.stack);
+                                        res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                        res.write('<script>alert("투자자 등록중 에러 발생" + err.stack);' +
+                                            'location.href="/registerToken"</script>');
+                                        res.end();
+                                        return;
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                        res.write('<script>alert("데이터베이스 연결 실패" + err.stack);' +
+                            'location.href="/"</script>');
+                        res.end();
+                    }
                 } else {
                     // error
+                    context.output = "fail";
+                    res.render('registerToken.ejs', context);
                 }
             });
         })

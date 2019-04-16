@@ -28,28 +28,7 @@ module.exports = {
         connection.investBuilding(accountEncryption, password, contractAddress, toAddress, messageHash, v, r, s, investmentAmount, investmentForm, function (result) {
             if(result){
                 console.log("등록완료");
-
-                var database = require('../database/database');
-
-                if(database.db){
-                    database.PostModel.findByAddress(contractAddress, function(err, result_title){
-                        if (err) callback(false);
-                        if (result_title){
-                            if (result_title.length == 1){
-                                var postTitle = result_title[0].title;
-                                var postRole = parseInt(investmentForm);
-                                database.UserModel.adding_role(toAddress, postTitle, contractAddress, postRole, function (err, result) {
-                                    if (err) callback(false);
-                                    if (result) callback(true);
-                                })
-                            } else callback(false);
-                        } else{
-                            callback(false);
-                        }
-                    })
-                } else {
-                    callback(false);
-                }
+                callback(true);
             }else{
                 console.log("등록실패");
                 callback(false);

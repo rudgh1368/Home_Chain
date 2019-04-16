@@ -60,7 +60,7 @@ var write = function (req, res) {
 
     var form = new formidable.IncomingForm();
 
-    var uri = '/home/blockChain/contracts/Home_Chain-realMerged (사본)/uploads/';
+    var uri = '/home/yang/WebstormProjects/homechain/uploads/';
 
     try {
         fs.mkdirSync(uri + paramWallet);
@@ -202,7 +202,6 @@ var write = function (req, res) {
                             // });
                             post.savePost(function (err, result) {
                                 if (err) {
-                                    if (err) {
                                         console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
 
                                         res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
@@ -211,14 +210,14 @@ var write = function (req, res) {
                                         res.end();
 
                                         return;
-                                    }
                                 }
+                                if (result){
+                                    console.log("글 데이터 추가함.");
+                                    console.log('글 작성', '게시글을 생성했습니다. : ' + post._id);
 
-                                console.log("글 데이터 추가함.");
-                                console.log('글 작성', '게시글을 생성했습니다. : ' + post._id);
-
-                                return res.redirect('/listpost');
-                                // return res.redirect('/showpost/' + post._id);
+                                    return res.redirect('/listpost');
+                                    // return res.redirect('/showpost/' + post._id);
+                                }
                             });
                         });
                     } else {
@@ -477,7 +476,7 @@ var download = function(req, res) {
             if (result){
                 var fileName = result[0].fileName;
                 var folder = result[0].dev_wallet;
-                var path = "/home/blockChain/contracts/Home_Chain-realMerged (사본)/uploads/" + folder + "/";
+                var path = "/home/yang/WebstormProjects/homechain/uploads/" + folder + "/";
                 var file = path + fileName;
                 console.log("file: " + file);
                 res.download(file);

@@ -112,10 +112,24 @@ var register = function (req, res) {
                                         return;
                                     }
                                     if (result) {
-                                        res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-                                        res.write('<script>alert("등록 성공");' +
-                                            'location.href="/"</script>');
-                                        res.end();
+                                        database.PostModel.add_constructor(buildingConstructor, contractAddress, function (err, result){
+                                            if (err) {
+                                                console.error('add_constructor 에러 : ' + err.stack);
+
+                                                res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                                res.write('<script>alert("시행사 등록중 에러 발생" + err.stack);' +
+                                                    'location.href="/"</script>');
+                                                res.end();
+                                                return;
+                                            }
+                                            if (result){
+                                                res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                                res.write('<script>alert("등록 성공");' +
+                                                    'location.href="/"</script>');
+                                                res.end();
+                                            }
+                                        });
+
                                     }
                                 });
                             } else{
