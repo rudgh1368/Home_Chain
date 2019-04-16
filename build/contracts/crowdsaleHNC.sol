@@ -122,6 +122,14 @@ contract crowdsaleHNC is ERC20{
         return buildingCostructor;
     }
 
+    function getInvestMoney() internal view returns(uint256){
+        return (interestedPersons[msg.sender].realMoney);
+    }
+
+    function getFundingGoal() internal view returns(uint256){
+        return (fundingGoal);
+    }
+
 
     /**
      * Check if goal was reached

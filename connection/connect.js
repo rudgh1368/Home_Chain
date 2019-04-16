@@ -368,6 +368,29 @@ module.exports = {
                 callback(result)
             }
         })
+    },
+
+    checkMypageState : function (accountEncryption, password, contractAddress, callback) {
+        console.log('web3, checkMypageState 접근');
+
+        var accountDecryption = web3.eth.accounts.decrypt(accountEncryption, password);
+        var address = accountDecryption.address;
+
+        HomeChain.setProvider(web3.currentProvider);
+        HomeChain.options.address = contractAddress;
+
+        HomeChain.methods.checkMypageState().call({
+            from : address
+        }, function (err, result) {
+            if(err) {
+                console.log(err);
+                callback(err)
+            }
+            else {
+                console.log('transaction : ', result)
+                callback(result)
+            }
+        })
     }
 };
 function sendEther(address){
