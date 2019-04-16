@@ -164,8 +164,11 @@ module.exports = {
         //address와 toAddress가 같은지 체크
         var address = accountDecryption.address;
         if (address != toAddress) {
+            console.log("ID 같지 않습니다.")
             callback(false);
         } else {
+            console.log("ID 같습니다.")
+
             var privateKey = accountDecryption.privateKey;
             HomeChain.setProvider(web3.currentProvider);
             HomeChain.options.address = contractAddress;
