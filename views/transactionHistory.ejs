@@ -117,39 +117,52 @@
 
                     <div>
                         <span class="badge badge-info col-sm-5">총 Token</span>
-                        <span class="col-sm-3"><%= fundingGoalMoney %></span>
+                        <span class="col-sm-3"><%= fundingMoney %></span>
                     </div>
                     <div style="margin-top: 3%">
                         <span class="badge badge-info col-sm-5">사용한 Token</span>
-                        <span class="col-sm-3">test</span>
+                        <span class="col-sm-3"><%= fundingMoney - developerBalance %></span>
                     </div>
                     <div style="margin-top: 3%">
                         <span class="badge badge-info col-sm-5">남은 Token</span>
-                        <span class="col-sm-3">test</span>
+                        <span class="col-sm-3"><%= developerBalance %></span>
                     </div>
                     <div style="margin-top: 10%">
+                        <span class="badge badge-primary col-sm-5">나의 Token</span>
+                        <span class="col-sm-3"><%= myBalance %></span>
+                    </div>
+                    <div style="margin-top: 3%">
                         <span class="badge badge-primary col-sm-5">투자 금액</span>
-                        <span class="col-sm-3">test</span>
+                        <span class="col-sm-3"><%= investBalance %></span>
                     </div>
             </div>
         </div>
         <div class="col-sm-9">
             <div class="jumbotron section-padding-50">
                 <div class="example-1 square scrollbar-cyan bordered-cyan" style="height: 500px;">
+                    <%
+                        for (i=0;i<contents.length;i++){
+                            var fromAddress = contents[i].fromAddress;
+                            var toAddress = contents[i].toAddress;
+                            var amout = contents[i].amount;
+                            var content = contents[i].content;
+                    %>
                     <div class="media mt-3 page-content" style="margin: 7%; background-color: white">
                         <div>
                             <img src="../public/img/bg-img/t1.png" class="align-self-center mr-3" style="width:60px">
-                            <p class="align-self-center mr-3">시행사</p>
+                            <p class="align-self-center mr-3"><%= fromAddress%></p>
                         </div>
                         <div class="media-body align-self-center mr-3">
-                            <h6>content : 시행중</h6>
-                            <p>vaule : 100$ </p>
+                            <h6>content : <%= content %></h6>
+                            <p>vaule : <%= amout %></p>
                         </div>
                         <div>
                             <img src="../public/img/bg-img/t1.png" class="align-self-center mr-3" style="width:60px">
-                            <p class="align-self-center mr-3">시공사</p>
+                            <p class="align-self-center mr-3"><%= toAddress %></p>
                         </div>
                     </div>
+                    <%}%>
+
                 </div>
             </div>
         </div>
