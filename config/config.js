@@ -22,8 +22,8 @@ module.exports = {
         {file:'./createToken', path:'/createToken/create', method:'create', type:'post'},
         {file:'./registerToken', path:'/registerToken', method:'registerToken', type:'get'},
         {file:'./registerToken', path:'/registerToken/register', method:'register', type:'post'},
-        {file:'./useToken', path:'/useToken', method:'useToken', type:'get'},
-        {file:'./useToken', path:'/useToken/use', method:'use', type:'post'},
+        {file:'./useToken', path:'/useToken/:id', method:'useToken', type:'get'},
+        {file:'./useToken', path:'/useToken/:id/use', method:'use', type:'post'},
         {file:'./registerConstructor', path:'/registerConstructor', method:'registerConstructor', type:'get'},
         {file:'./registerConstructor', path:'/registerConstructor/register', method:'register', type:'post'},
 
